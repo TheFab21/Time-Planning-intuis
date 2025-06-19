@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Therm Planning - Semaine complete</title>
+  <style>
+    body { font-family: sans-serif; margin: 0; padding: 16px; background: var(--primary-background-color, #fafafa); color: var(--primary-text-color, #212121); }
+    h2 { margin: 0 0 12px; }
+    select, button, input { font: inherit; }
+    #week { margin-top: 16px; border-top: 1px solid #ccc; }
+    .row { display: flex; align-items: center; margin: 2px 0; font-size: 11px; }
+    .lbl { width: 42px; text-align: right; padding-right: 4px; }
+    .bar { flex: 1; position: relative; height: 22px; border: 1px solid #ccc; display: flex; }
+    .seg { cursor: pointer; height: 100%; }
+    .tick { position: absolute; top: -12px; font-size: 9px; transform: translateX(-50%); }
+    .legend { display: flex; flex-wrap: wrap; gap: 8px; font-size: 11px; margin: 10px 0; }
+    .legend span { display: flex; align-items: center; gap: 4px; }
+    .legend i { width: 12px; height: 12px; border: 1px solid #666; display: inline-block; }
+    #zones { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px;}
+    .zonebox { border-radius: 7px; border: 1px solid #ccc; padding: 8px; min-width: 180px; background: var(--zone-bg,#fff); box-shadow: 0 1px 3px #0001;}
+    .zonebox h4 { margin: 0 0 6px 0; font-size: 15px; display: flex; align-items: center; gap: 6px;}
+    .zonecolor { width: 18px; height: 18px; border-radius: 4px; display: inline-block; vertical-align: middle;}
+    .temp { display: flex; align-items: center; gap: 7px; margin: 4px 0; font-size: 12px; }
+    .temp span:first-child { width: 90px; overflow: hidden; text-overflow: ellipsis; }
+    .temp input[type="number"] { width: 44px; padding: 2px 3px; }
+    .plusbtn { background: #eee; border: 1px solid #aaa; border-radius: 50%; font-size: 16px; width: 22px; height: 22px; cursor: pointer; margin-left: 10px;}
+    .top-controls { display: flex; align-items: center; gap: 18px;}
+    .t-edit { display: flex; gap: 10px; align-items: center; margin-bottom: 10px;}
+    .t-edit label {font-size:13px;}
+    .t-edit input[type="number"] { width:38px; }
+    dialog { border: none; border-radius: 8px; padding: 18px; box-shadow: 0 4px 12px rgba(0,0,0,.25); width: 280px; }
+    dialog::backdrop { background: rgba(0,0,0,.45); }
+    dialog label { display: block; margin: 8px 0; font-size: 14px; }
+    dialog menu { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+  </style>
+</head>
+<body>
+  <h2>Therm Planning - Semaine complete</h2>
+  <div class="top-controls">
+    <label>Planning : <select id="planner"></select></label>
+    <span class="t-edit">
+      <label>Absent <input id="away" type="number" min="4" max="24" step="0.5"></label>
+      <label>Hors-gel <input id="hg" type="number" min="-5" max="15" step="0.5"></label>
+    </span>
+  </div>
+  <div id="week"></div>
+  <div id="legend" class="legend"></div>
+  <h3>Temperatures par zone</h3>
+  <div id="zones"></div>
+  <button id="save" disabled>Enregistrer</button>
+  <dialog id="dlg">
+    <form method="dialog">
+      <h3>Editer creneau</h3>
+      <label>Debut <input type="time" id="dStart" required></label>
+      <label>Fin   <input type="time" id="dEnd"   required></label>
+      <label>Zone <select id="dZone"></select></label>
+      <menu>
+        <button value="cancel">Annuler</button>
+        <button value="default">OK</button>
+      </menu>
+    </form>
+  </dialog>
+<script>
+(async()=>{
+  const COLORS = ['#4caf50','#2196f3','#ff9800','#9c27b0','#f44336','#3f51b5','#795548','#009688','#00bcd4','#e91e63'];
+  const fmt = m => (String(Math.floor(m/60)).padStart(2,'0'))+':'+(String(m%60).padStart(2,'0'));
+  const DAY = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+  const TICKS = [0,360,720,1080];
+
+  function hex2rgba(hex, alpha) {
+    hex = hex.replace('#','');
+    if(hex.length===3) hex = hex.split('').map(function(x){return x+x;}).join('');
+    var r=parseInt(hex.slice(0,2),16),
+        g=parseInt(hex.slice(2,4),16),
+        b=parseInt(hex.slice(4,6),16);
+    return 'rgba('+r+','+g+','+b+','+alpha+')';
+  }
+
+  var sel = document.getElementById('planner');
+  var week = document.getElementById('week');
+  var legend = document.getElementById('legend');
+  var zonesDiv = document.getElementById('zones');
+  var saveBtn = document.getElementById('save');
+  var dlg = document.getElementById('dlg');
+  var dStart = document.getElementById('dStart');
+  var dEnd = document.getElementById('dEnd');
+  var dZone = document.getElementById('dZone');
+  var away = document.getElementById('away');
+  var hg = document.getElementById('hg');
+
+  var ROOM_MAP = null;
+  function getRoomMap(hass) {
+    if(ROOM_MAP) return ROOM_MAP;
+    ROOM_MAP = {};
+    if(hass.states['sensor.liste_pieces_lens'] && hass.states['sensor.liste_pieces_lens'].attributes && hass.states['sensor.liste_pieces_lens'].attributes.raw_json){
+      hass.states['sensor.liste_pieces_lens'].attributes.raw_json.forEach(function(r){ ROOM_MAP[r.id] = r.name; });
+    }
+    return ROOM_MAP;
+  }
+  function getHass(){
+    if(window.parent && window.parent.document && window.parent.document.querySelector('home-assistant'))
+      return window.parent.document.querySelector('home-assistant').hass;
+    return window.hass || null;
+  }
+  var hass = null;
+  for(var i=0;i<60;i++){
+    hass = getHass();
+    if(hass) break;
+    await new Promise(function(res){setTimeout(res,150);});
+  }
+  if(!hass) { alert("Impossible de recuperer hass."); return; }
+
+  var PLANNERS = Object.entries(hass.states)
+    .filter(function(entry){var id=entry[0],e=entry[1]; return id.startsWith('sensor.') && e.attributes && e.attributes.timetable;});
+  PLANNERS.forEach(function(entry){
+    var id=entry[0],e=entry[1];
+    var o = document.createElement('option');
+    o.value = id;
+    o.textContent = e.attributes.name || id;
+    sel.appendChild(o);
+  });
+
+  var current = null, dirty = false, editing;
+  function markDirty() { dirty = true; saveBtn.disabled = false; }
+
+  function normalize() {
+    var tt = [].concat(current.timetable).sort(function(a,b){return a.m_offset-b.m_offset;});
+    var res = [];
+    for (var d = 0; d < 7; d++) {
+      var base = d * 1440, next = base + 1440;
+      var slots = tt.filter(function(s){return s.m_offset >= base && s.m_offset < next;});
+      var zBefore = tt.filter(function(s){return s.m_offset<base;}).slice(-1)[0];
+      var firstZone = zBefore ? zBefore.zone_id : (slots[0] ? slots[0].zone_id : (tt[0] ? tt[0].zone_id : 0));
+      if (!slots.length || slots[0].m_offset > base) slots.unshift({zone_id: firstZone, m_offset: base});
+      if (slots[slots.length-1].m_offset < next) {
+        var lastZone = slots[slots.length-1].zone_id;
+        slots.push({zone_id: lastZone, m_offset: next});
+      }
+      for (var i=0; i<slots.length-1; i++) res.push({ zone_id: slots[i].zone_id, m_offset: slots[i].m_offset });
+    }
+    var merged = [];
+    for (var i=0; i<res.length; i++) {
+      if (merged.length && merged[merged.length-1].zone_id === res[i].zone_id) continue;
+      merged.push(res[i]);
+    }
+    current.timetable = merged;
+  }
+function insertSlot(timetable, day, start, end, zone_id) {
+    // start et end en minutes sur la journée, day de 0 à 6
+    const base = day * 1440;
+    const nextBase = ((day + 1) % 7) * 1440;
+    let tt = timetable.slice();
+
+    if (end > start) {
+        // Cas standard, la tranche ne traverse pas minuit
+        // Supprime tous les slots dans [base+start, base+end)
+        tt = tt.filter(s => (s.m_offset < base + start) || (s.m_offset >= base + end));
+        // Ajoute début de la nouvelle zone
+        tt.push({ zone_id, m_offset: base + start });
+        // Pour la zone après, retrouve la zone précédente et remets-la à end
+        const prev = timetable.filter(s => s.m_offset < base + start).slice(-1)[0];
+        const afterZone = timetable.filter(s => s.m_offset >= base + end).slice(0, 1)[0]?.zone_id || prev?.zone_id || zone_id;
+        tt.push({ zone_id: afterZone, m_offset: base + end });
+    } else {
+        // Tranche à cheval sur minuit
+        // Premier segment: [start, 1440) sur day
+        tt = tt.filter(s => (s.m_offset < base + start) || (s.m_offset >= base + 1440));
+        tt.push({ zone_id, m_offset: base + start });
+        const prev = timetable.filter(s => s.m_offset < base + start).slice(-1)[0];
+        const afterZone = timetable.filter(s => s.m_offset >= base + 1440).slice(0, 1)[0]?.zone_id || prev?.zone_id || zone_id;
+        tt.push({ zone_id: afterZone, m_offset: base + 1440 });
+
+        // Deuxième segment: [0, end) sur jour suivant
+        tt = tt.filter(s => (s.m_offset < nextBase) || (s.m_offset >= nextBase + end));
+        tt.push({ zone_id, m_offset: nextBase });
+        const nextPrev = timetable.filter(s => s.m_offset < nextBase).slice(-1)[0];
+        const nextAfterZone = timetable.filter(s => s.m_offset >= nextBase + end).slice(0, 1)[0]?.zone_id || nextPrev?.zone_id || zone_id;
+        tt.push({ zone_id: nextAfterZone, m_offset: nextBase + end });
+    }
+    // Tri et merge slots consécutifs avec même zone_id
+    tt = tt.sort((a,b)=>a.m_offset-b.m_offset);
+    let merged = [];
+    for (let s of tt) {
+        if (!merged.length || merged[merged.length-1].zone_id !== s.zone_id) merged.push(s);
+    }
+    return merged;
+}
+
+  function render() {
+    week.textContent = '';
+    var st = hass.states[sel.value];
+    if(!st) { week.textContent = 'Entite introuvable'; return; }
+    current = JSON.parse(JSON.stringify(st.attributes));
+    current.roomMap = getRoomMap(hass);
+    normalize();
+
+    away.value = current.away_temp || '';
+    hg.value = current.hg_temp || '';
+    away.onchange = function(){ current.away_temp = Number(away.value); markDirty(); };
+    hg.onchange = function(){ current.hg_temp = Number(hg.value); markDirty(); };
+
+    legend.innerHTML = current.zones.map(function(z,i){
+      return '<span><i style="background:'+COLORS[z.id % COLORS.length]+'"></i>'+z.name+'</span>';
+    }).join('');
+
+    week.innerHTML = '';
+    for (var d = 0; d < 7; d++) {
+      var row = document.createElement('div');
+      row.className = 'row';
+      row.innerHTML = '<div class="lbl">'+DAY[d]+'</div><div class="bar"></div><button class="plusbtn" title="Ajouter creneau">+</button>';
+      var bar = row.querySelector('.bar');
+      var plus = row.querySelector('.plusbtn');
+
+      var base = d * 1440, next = base + 1440;
+      var slots = current.timetable
+        .filter(function(s){return s.m_offset >= base && s.m_offset < next;})
+        .map(function(s){return Object.assign({},s);});
+      var prev = current.timetable.filter(function(s){return s.m_offset < base;}).slice(-1)[0];
+      var lastZone = prev ? prev.zone_id : (slots[0] ? slots[0].zone_id : 0);
+      var segments = [];
+      var cursor = 0;
+      for (var i = 0; i < slots.length; i++) {
+        var segStart = slots[i].m_offset - base;
+        if (segStart > cursor) segments.push({ zone_id: lastZone, start: cursor, end: segStart });
+        var segEnd = (i < slots.length - 1) ? (slots[i + 1].m_offset - base) : 1440;
+        segments.push({ zone_id: slots[i].zone_id, start: segStart, end: segEnd });
+        lastZone = slots[i].zone_id;
+        cursor = segEnd;
+      }
+      if (cursor < 1440) segments.push({ zone_id: lastZone, start: cursor, end: 1440 });
+
+      TICKS.forEach(function(t){
+        var tk = document.createElement('span');
+        tk.className = 'tick';
+        tk.style.left = (t/14.4)+'%';
+        tk.textContent = fmt(t);
+        bar.appendChild(tk);
+      });
+
+      segments.forEach(function(seg){
+        var div = document.createElement('div');
+        div.className = 'seg';
+        div.style.width = ((seg.end - seg.start) / 14.4) + '%';
+        div.style.background = hex2rgba(COLORS[seg.zone_id % COLORS.length], 0.27);
+        div.title = fmt(seg.start)+'-'+fmt(seg.end)+' / '+(current.zones.find(function(z){return z.id === seg.zone_id;})?.name || ('Zone '+seg.zone_id));
+        div.onclick = function(){
+          openDialog(d, Object.assign({},seg,{m_offset: seg.start + base, zone_id: seg.zone_id}), seg.start, seg.end);
+        };
+        bar.appendChild(div);
+      });
+
+      plus.onclick = function() {
+        openDialog(d, { start: 0, end: 60, zone_id: current.zones[0]?.id || 0, m_offset: base }, 0, 60);
+      };
+      week.appendChild(row);
+    }
+
+    zonesDiv.innerHTML = '';
+    current.zones.forEach(function(z){
+      var zc = COLORS[z.id % COLORS.length];
+      var box = document.createElement('div');
+      box.className = 'zonebox';
+      box.style.setProperty('--zone-bg', hex2rgba(zc, 0.13));
+      box.innerHTML = '<h4><span class="zonecolor" style="background:'+zc+'"></span>'+z.name+'</h4>';
+      z.rooms_temp.forEach(function(r){
+        var div = document.createElement('div'); div.className = 'temp';
+        var lab = document.createElement('span'); lab.textContent = current.roomMap[r.room_id] || r.room_id;
+        var inp = document.createElement('input');
+        inp.type = 'number'; inp.min = 10; inp.max = 25; inp.step = 0.5; inp.value = r.temp;
+        inp.onchange = function(e){ r.temp = +inp.value; markDirty(); };
+        var plusBtn = document.createElement('button'); plusBtn.type = 'button'; plusBtn.textContent = '+'; plusBtn.onclick = function(){ inp.value = (+inp.value + 0.5).toFixed(1); inp.onchange({target:inp}); };
+        var minusBtn = document.createElement('button'); minusBtn.type = 'button'; minusBtn.textContent = '-'; minusBtn.onclick = function(){ inp.value = (+inp.value - 0.5).toFixed(1); inp.onchange({target:inp}); };
+        div.append(lab, minusBtn, inp, plusBtn);
+        box.appendChild(div);
+      });
+      zonesDiv.appendChild(box);
+    });
+  }
+
+  function openDialog(day, slot, start, end) {
+    dZone.innerHTML = '';
+    current.zones.forEach(function(z){
+      var o = document.createElement('option');
+      o.value = z.id;
+      o.textContent = z.name;
+      dZone.appendChild(o);
+    });
+    dStart.value = fmt(start);
+    dEnd.value = fmt(end);
+    dZone.value = slot.zone_id;
+    editing = { slot, day };
+    dlg.showModal();
+  }
+
+  dlg.addEventListener('close', function() {
+    if (dlg.returnValue !== 'default') return;
+
+    const [sh, sm] = dStart.value.split(':').map(Number);
+    const [eh, em] = dEnd.value.split(':').map(Number);
+    const zid = +dZone.value;
+    const day = editing.day;
+    const ns = sh * 60 + sm;
+    const ne = eh * 60 + em;
+
+    current.timetable = insertSlot(current.timetable, day, ns, ne, zid);
+    markDirty();
+    render();
+});
+
+
+  sel.onchange = function() {
+    week.textContent = 'Chargement...';
+    setTimeout(render, 100);
+  };
+  saveBtn.onclick = async function() {
+    if (!dirty) return;
+    await hass.callService('mqtt', 'publish', {
+      topic: 'plannings/'+sel.value.split('.')[1]+'/set',
+      payload: JSON.stringify({
+        timetable: current.timetable,
+        zones: current.zones,
+        away_temp: current.away_temp,
+        hg_temp: current.hg_temp
+      }),
+      retain: true
+    });
+    dirty = false; saveBtn.disabled = true;
+    alert('MQTT envoye');
+    setTimeout(render, 900);
+  };
+  render();
+})();
+</script>
+</body>
+</html>
