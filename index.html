@@ -145,6 +145,12 @@
     }
     current.timetable = merged;
   }
+  function zoneAt(tt, offset) {
+    for (var i = tt.length - 1; i >= 0; i--) {
+      if (tt[i].m_offset <= offset) return tt[i].zone_id;
+    }
+    return tt[0] ? tt[0].zone_id : 0;
+  }
 function insertSlot(timetable, day, start, end, zone_id) {
     // start et end en minutes sur la journée, day de 0 à 6
     const base = day * 1440;
@@ -157,24 +163,21 @@ function insertSlot(timetable, day, start, end, zone_id) {
         tt = tt.filter(s => (s.m_offset < base + start) || (s.m_offset >= base + end));
         // Ajoute début de la nouvelle zone
         tt.push({ zone_id, m_offset: base + start });
-        // Pour la zone après, retrouve la zone précédente et remets-la à end
-        const prev = timetable.filter(s => s.m_offset < base + start).slice(-1)[0];
-        const afterZone = timetable.filter(s => s.m_offset >= base + end).slice(0, 1)[0]?.zone_id || prev?.zone_id || zone_id;
+        // Pour la zone après, on récupère celle active à l'instant end
+        const afterZone = zoneAt(timetable, base + end);
         tt.push({ zone_id: afterZone, m_offset: base + end });
     } else {
         // Tranche à cheval sur minuit
         // Premier segment: [start, 1440) sur day
         tt = tt.filter(s => (s.m_offset < base + start) || (s.m_offset >= base + 1440));
         tt.push({ zone_id, m_offset: base + start });
-        const prev = timetable.filter(s => s.m_offset < base + start).slice(-1)[0];
-        const afterZone = timetable.filter(s => s.m_offset >= base + 1440).slice(0, 1)[0]?.zone_id || prev?.zone_id || zone_id;
+        const afterZone = zoneAt(timetable, base + 1440);
         tt.push({ zone_id: afterZone, m_offset: base + 1440 });
 
         // Deuxième segment: [0, end) sur jour suivant
         tt = tt.filter(s => (s.m_offset < nextBase) || (s.m_offset >= nextBase + end));
         tt.push({ zone_id, m_offset: nextBase });
-        const nextPrev = timetable.filter(s => s.m_offset < nextBase).slice(-1)[0];
-        const nextAfterZone = timetable.filter(s => s.m_offset >= nextBase + end).slice(0, 1)[0]?.zone_id || nextPrev?.zone_id || zone_id;
+        const nextAfterZone = zoneAt(timetable, nextBase + end);
         tt.push({ zone_id: nextAfterZone, m_offset: nextBase + end });
     }
     // Tri et merge slots consécutifs avec même zone_id
