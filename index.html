@@ -153,6 +153,10 @@
   }
 function insertSlot(timetable, day, start, end, zone_id) {
     // start et end en minutes sur la journée, day de 0 à 6
+    if (start === end) {
+        console.warn('insertSlot: start and end are identical');
+        return timetable;
+    }
     const base = day * 1440;
     const nextBase = ((day + 1) % 7) * 1440;
     let tt = timetable.slice();
