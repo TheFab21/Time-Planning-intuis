@@ -172,14 +172,13 @@ function insertSlot(timetable, day, start, end, zone_id) {
         tt.push({ zone_id: afterZone, m_offset: base + end });
     } else {
         // Tranche à cheval sur minuit
-        // Premier segment: [start, 1440) sur day
+        // Premier segment: [start, 1440) sur day et second: [0, end) sur jour suivant
         tt = tt.filter(s => (s.m_offset < base + start) || (s.m_offset >= base + 1440));
+        tt = tt.filter(s => (s.m_offset < nextBase) || (s.m_offset >= nextBase + end));
+
         tt.push({ zone_id, m_offset: base + start });
         const afterZone = zoneAt(timetable, base + 1440);
         tt.push({ zone_id: afterZone, m_offset: base + 1440 });
-
-        // Deuxième segment: [0, end) sur jour suivant
-        tt = tt.filter(s => (s.m_offset < nextBase) || (s.m_offset >= nextBase + end));
         tt.push({ zone_id, m_offset: nextBase });
         const nextAfterZone = zoneAt(timetable, nextBase + end);
         tt.push({ zone_id: nextAfterZone, m_offset: nextBase + end });
