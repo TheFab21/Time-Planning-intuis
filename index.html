@@ -305,6 +305,9 @@ function insertSlot(timetable, day, start, end, zone_id) {
     const ns = sh * 60 + sm;
     const ne = eh * 60 + em;
 
+    current.timetable = current.timetable.filter(function(s){
+      return s.m_offset !== editing.slot.m_offset;
+    });
     current.timetable = insertSlot(current.timetable, day, ns, ne, zid);
     markDirty();
     render();
