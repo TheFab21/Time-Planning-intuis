@@ -186,45 +186,47 @@ function insertSlot(day, endDay, ns, ne, zid) {
 
 
   // === ÉDITION ===
-function editSlot(day, orig_start, orig_end_day, orig_end, new_start, new_end_day, new_end, zid) {
-  const span = 7 * 1440;
-  const origStart = day * 1440 + orig_start;
-  let origEnd = orig_end_day * 1440 + orig_end;
-  if (origEnd <= origStart) origEnd += span;
+  function editSlot(day, orig_start, orig_end_day, orig_end, new_start, new_end_day, new_end, zid) {
+    const span = 7 * 1440;
+    const origStart = day * 1440 + orig_start;
+    let origEnd = orig_end_day * 1440 + orig_end;
+    if (origEnd <= origStart) origEnd += span;
 
-  const newStart = day * 1440 + new_start;
-  let newEnd = new_end_day * 1440 + new_end;
-  if (newEnd <= newStart) newEnd += span;
+    const newStart = day * 1440 + new_start;
+    let newEnd = new_end_day * 1440 + new_end;
+    if (newEnd <= newStart) newEnd += span;
 
-  const oldSlots = [...current.timetable].sort((a, b) => a.m_offset - b.m_offset);
-  let expanded = oldSlots.concat(oldSlots.map(s => ({ ...s, m_offset: s.m_offset + span }))).sort((a,b)=>a.m_offset-b.m_offset);
+    const startUnion = Math.min(origStart, newStart);
+    const endUnion = Math.max(origEnd, newEnd);
 
-  const afterEntry = expanded.find(s => s.m_offset === origEnd);
-  const zoneAfter = afterEntry ? afterEntry.zone_id : getZoneIdAt(expanded, origEnd + 1);
+    const oldSlots = [...current.timetable].sort((a, b) => a.m_offset - b.m_offset);
+    let expanded = oldSlots
+      .concat(oldSlots.map(s => ({ ...s, m_offset: s.m_offset + span })))
+      .sort((a,b)=>a.m_offset-b.m_offset);
 
-  expanded = expanded.filter(s =>
-    s.m_offset !== origStart &&
-    s.m_offset !== origEnd &&
-    !(s.m_offset > origStart && s.m_offset < origEnd)
-  );
+    const zoneBefore = getZoneIdAt(expanded, startUnion);
+    const zoneAfter = getZoneIdAt(expanded, newEnd);
 
-  expanded.push({ zone_id: zid, m_offset: newStart });
-  expanded.push({ zone_id: zoneAfter, m_offset: newEnd });
+    expanded = expanded.filter(s => s.m_offset < startUnion || s.m_offset > endUnion);
 
-  expanded.sort((a,b)=>a.m_offset-b.m_offset);
+    expanded.push({ zone_id: zoneBefore, m_offset: startUnion });
+    expanded.push({ zone_id: zid, m_offset: newStart });
+    expanded.push({ zone_id: zoneAfter, m_offset: newEnd });
 
-  const merged = [];
-  for (const seg of expanded) {
-    const off = seg.m_offset % span;
-    if (merged.length && merged[merged.length-1].zone_id === seg.zone_id) continue;
-    merged.push({ zone_id: seg.zone_id, m_offset: off });
+    expanded.sort((a,b)=>a.m_offset-b.m_offset);
+
+    const merged = [];
+    for (const seg of expanded) {
+      const off = seg.m_offset % span;
+      if (merged.length && merged[merged.length-1].zone_id === seg.zone_id) continue;
+      merged.push({ zone_id: seg.zone_id, m_offset: off });
+    }
+
+    current.timetable = merged;
+    normalize();
+    markDirty();
+    render();
   }
-
-  current.timetable = merged;
-  normalize();
-  markDirty();
-  render();
-}
 
 
 
