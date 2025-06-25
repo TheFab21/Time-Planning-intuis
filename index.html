@@ -205,7 +205,7 @@ function insertSlot(day, endDay, ns, ne, zid) {
       .sort((a,b)=>a.m_offset-b.m_offset);
 
     const zoneBefore = getZoneIdAt(expanded, startUnion);
-    const zoneAfter = getZoneIdAt(expanded, newEnd);
+    const zoneAfter = getZoneIdAt(expanded, Math.max(origEnd, newEnd));
 
     expanded = expanded.filter(s => s.m_offset < startUnion || s.m_offset > endUnion);
 
