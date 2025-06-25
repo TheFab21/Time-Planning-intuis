@@ -53,7 +53,7 @@
     <form method="dialog">
       <h3 id="dlgTitle">Éditer créneau</h3>
       <label>Début <input type="time" id="dStart" required></label>
-      <label>Fin   <input type="time" id="dEnd"   required></label>
+      <label>Fin   <select id="dEndDay"></select> <input type="time" id="dEnd"   required></label>
       <label>Zone <select id="dZone"></select></label>
       <menu>
                     <!-- on met formnovalidate pour bypasser le required -->
@@ -87,6 +87,7 @@
   const dlgTitle = document.getElementById('dlgTitle');
   const dStart = document.getElementById('dStart');
   const dEnd = document.getElementById('dEnd');
+  const dEndDay = document.getElementById('dEndDay');
   const dZone = document.getElementById('dZone');
   const away = document.getElementById('away');
   const hg = document.getElementById('hg');
@@ -153,80 +154,74 @@
 
   // === INSERTION ===
   // === INSERTION ===
-function insertSlot(day, ns, ne, zid) {
-  const base = day * 1440;
+function insertSlot(day, endDay, ns, ne, zid) {
+  const start = day * 1440 + ns;
+  let end = endDay * 1440 + ne;
+  if (end <= start) end += 7 * 1440;
+
   let tt = [...current.timetable].sort((a, b) => a.m_offset - b.m_offset);
 
-  if (ne <= ns) {
-    // Créneau qui traverse minuit : on ne pousse QUE le début et la fin effective
-    const next_day  = (day + 1) % 7;
-    const baseNext  = next_day * 1440;
-    // On enlève tous les évènements strictement à l’intérieur de cette fenêtre
-    tt = tt.filter(s =>
-      !(s.m_offset > base + ns && s.m_offset < baseNext + ne)
-    );
-    // On marque le début du créneau
-    tt.push({ zone_id: zid, m_offset: base + ns });
-    // ...puis sa fin, le lendemain matin
-    tt.push({
-      zone_id: getZoneIdAt(current.timetable, baseNext + ne),
-      m_offset: baseNext + ne
-    });
+  const zoneAfter = getZoneIdAt(tt, end % (7 * 1440));
+
+  if (end > start) {
+    tt = tt.filter(s => !(s.m_offset > start && s.m_offset < end));
   } else {
-    // Cas simple dans la journée
-    tt = tt.filter(s => s.m_offset < base + ns || s.m_offset >= base + ne);
-    tt.push({ zone_id: zid, m_offset: base + ns });
-    tt.push({ zone_id: getZoneIdAt(current.timetable, base + ne), m_offset: base + ne });
+    tt = tt.filter(s => !((s.m_offset > start && s.m_offset < 7*1440) || (s.m_offset > 0 && s.m_offset < end)));
   }
+
+  tt.push({ zone_id: zid, m_offset: start % (7 * 1440) });
+  tt.push({ zone_id: zoneAfter, m_offset: end % (7 * 1440) });
 
   tt.sort((a, b) => a.m_offset - b.m_offset);
   let merged = [];
   for (let i = 0; i < tt.length; i++) {
-    if (merged.length && merged[merged.length-1].zone_id === tt[i].zone_id) continue;
+    if (merged.length && merged[merged.length - 1].zone_id === tt[i].zone_id) continue;
     merged.push(tt[i]);
   }
   current.timetable = merged;
+  normalize();
   markDirty();
   render();
 }
 
 
   // === ÉDITION ===
-function editSlot(day, orig_start, orig_end, new_start, new_end, zid) {
-  const base        = day * 1440;
-  const baseNext    = ((day + 1) % 7) * 1440;
-  const origStart   = base + orig_start;
-  const origEnd     = orig_end > orig_start
-                       ? base + orig_end
-                       : baseNext + orig_end;
-  // copie triée
+function editSlot(day, orig_start, orig_end_day, orig_end, new_start, new_end_day, new_end, zid) {
+  const span = 7 * 1440;
+  const origStart = day * 1440 + orig_start;
+  let origEnd = orig_end_day * 1440 + orig_end;
+  if (origEnd <= origStart) origEnd += span;
+
+  const newStart = day * 1440 + new_start;
+  let newEnd = new_end_day * 1440 + new_end;
+  if (newEnd <= newStart) newEnd += span;
+
   const oldSlots = [...current.timetable].sort((a, b) => a.m_offset - b.m_offset);
+  let expanded = oldSlots.concat(oldSlots.map(s => ({ ...s, m_offset: s.m_offset + span }))).sort((a,b)=>a.m_offset-b.m_offset);
 
-  // on récupère la zone qui suivait l'ancien créneau
-  const afterEntry = oldSlots.find(s => s.m_offset === origEnd);
-  const zoneAfter  = afterEntry
-    ? afterEntry.zone_id
-    : getZoneIdAt(oldSlots, origEnd + 1);
+  const afterEntry = expanded.find(s => s.m_offset === origEnd);
+  const zoneAfter = afterEntry ? afterEntry.zone_id : getZoneIdAt(expanded, origEnd + 1);
 
-  // on supprime les deux repères de l'ancien créneau
-  let tt = oldSlots.filter(s =>
+  expanded = expanded.filter(s =>
     s.m_offset !== origStart &&
-    s.m_offset !== origEnd
+    s.m_offset !== origEnd &&
+    !(s.m_offset > origStart && s.m_offset < origEnd)
   );
 
-  // on insère les deux repères du créneau modifié
-  const newEnd = new_end > new_start
-               ? base + new_end
-               : baseNext + new_end;
-  tt.push({ zone_id: zid,      m_offset: base + new_start });
-  tt.push({ zone_id: zoneAfter, m_offset: newEnd });
+  expanded.push({ zone_id: zid, m_offset: newStart });
+  expanded.push({ zone_id: zoneAfter, m_offset: newEnd });
 
-  // tri + fusion des segments consécutifs de même zone
-  tt.sort((a, b) => a.m_offset - b.m_offset);
-  current.timetable = tt.filter((seg, i) =>
-    i === 0 || seg.zone_id !== tt[i - 1].zone_id
-  );
+  expanded.sort((a,b)=>a.m_offset-b.m_offset);
 
+  const merged = [];
+  for (const seg of expanded) {
+    const off = seg.m_offset % span;
+    if (merged.length && merged[merged.length-1].zone_id === seg.zone_id) continue;
+    merged.push({ zone_id: seg.zone_id, m_offset: off });
+  }
+
+  current.timetable = merged;
+  normalize();
   markDirty();
   render();
 }
@@ -298,12 +293,18 @@ function editSlot(day, orig_start, orig_end, new_start, new_end, zid) {
         div.style.width = `${(seg.end - seg.start) / 14.4}%`;
         div.style.background = hex2rgba(COLORS[seg.zone_id % COLORS.length], 0.27);
         div.title = `${fmt(seg.start)}-${fmt(seg.end)} / ${current.zones.find(z => z.id === seg.zone_id)?.name || 'Zone ' + seg.zone_id}`;
-        div.onclick = () => openDialog('edit', d, { ...seg, m_offset: seg.start + base, zone_id: seg.zone_id }, seg.start, seg.end);
+        const absStart = seg.start + base;
+        const allSlots = [...current.timetable].sort((a,b)=>a.m_offset-b.m_offset);
+        const next = allSlots.find(s => s.m_offset > absStart) || allSlots[0];
+        const endAbs = next.m_offset;
+        const endDay = Math.floor(endAbs / 1440) % 7;
+        const endTime = endAbs % 1440;
+        div.onclick = () => openDialog('edit', d, { ...seg, m_offset: absStart, zone_id: seg.zone_id }, seg.start, endTime, endDay);
         bar.appendChild(div);
       });
 
       plus.onclick = () => {
-        openDialog('insert', d, null, 0, 60);
+        openDialog('insert', d, null, 0, 60, d);
       };
       week.appendChild(row);
     }
@@ -330,7 +331,7 @@ function editSlot(day, orig_start, orig_end, new_start, new_end, zid) {
     });
   }
 
-  function openDialog(mode, day, slot, start, end) {
+  function openDialog(mode, day, slot, start, end, endDay = day) {
     dZone.innerHTML = '';
     current.zones.forEach(z => {
       const o = document.createElement('option');
@@ -338,10 +339,18 @@ function editSlot(day, orig_start, orig_end, new_start, new_end, zid) {
       o.textContent = z.name;
       dZone.appendChild(o);
     });
+    dEndDay.innerHTML = '';
+    DAY.forEach((name, i) => {
+      const o = document.createElement('option');
+      o.value = i;
+      o.textContent = name;
+      dEndDay.appendChild(o);
+    });
     dStart.value = fmt(start);
     dEnd.value = fmt(end);
+    dEndDay.value = endDay;
     dZone.value = slot?.zone_id ?? current.zones[0]?.id ?? 0;
-    editing = { mode, slot, day, orig_start: start, orig_end: end };
+    editing = { mode, slot, day, orig_start: start, orig_end: end, orig_end_day: endDay };
     dlgTitle.textContent = mode === "edit" ? "Éditer créneau" : "Ajouter créneau";
     dlg.showModal();
   }
@@ -352,18 +361,20 @@ function editSlot(day, orig_start, orig_end, new_start, new_end, zid) {
     const [sh, sm] = dStart.value.split(':').map(Number);
     const [eh, em] = dEnd.value.split(':').map(Number);
     const zid = +dZone.value;
+    const endDay = +dEndDay.value;
     const day = editing.day;
     let ns = sh * 60 + sm;
     let ne = eh * 60 + em;
     if (ne === 0) ne = 1440;
 
     if(editing.mode === 'insert') {
-      insertSlot(day, ns, ne, zid);
+      insertSlot(day, endDay, ns, ne, zid);
     } else if(editing.mode === 'edit') {
       // Pour l'édition, on cherche l'offset d'origine pour bien couper proprement
       const orig_start = editing.slot.start;
       const orig_end   = editing.slot.end;
-      editSlot(day, orig_start, orig_end, ns, ne, zid);
+      const orig_end_day = editing.orig_end_day;
+      editSlot(day, orig_start, orig_end_day, orig_end, ns, endDay, ne, zid);
     }
   });
 
