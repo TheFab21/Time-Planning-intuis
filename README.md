@@ -1,3 +1,24 @@
+THE ACHIEVED GOAL OF THIS PROJECT IS TO INTEGRATE INTUIS (EX MULLER-INTUITIV) HEATERS IN HOME ASSISTANT (DOCKERIZED)
+PREREQUIST  :
+- HOME ASSISTANT (HA)
+- NODE RED
+- MQTT
+THE RESULT IN HA IS :
+- 1 DASHBOARD TO PILOT THE STATES OF ALL HEATERS, AND HOME MODE
+- 1 DASHBOARD WHICH IS THE PLANNING MANAGER AS THE MOBILE APP IS NOT USER FRIENDLY ENOUGHT WHEN YOU HAVE A LOT OF ROOMS.
+
+HERE ARE SOME USEFULL SOURCES  :
+- https://dev.netatmo.com/apidocumentation/energy#documentation
+- https://forum.hacf.fr/t/integration-radiateurs-intuis-connect-sans-homekit/41313 (IN FRENCH)
+- https://flows.nodered.org/flow/3d7f77cef8a7c6aa4fc33e2dbf26f15e (THE ROOT OF THIS PROJECT)
+- https://github.com/shun84/jeedom-plugin-mullerintuitiv/blob/master/core/api/mullerintuitivApi.php (HELPFULL TO UNDERSTAND INTUIS API)
+
+  
+
+
+
+
+
 # Time Planning for Home Assistant
 
 `index.html` provides a small web interface to manage heating schedules stored in Home Assistant sensors. The page sends updates through MQTT so they can be handled in Node-RED.
