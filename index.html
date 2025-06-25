@@ -192,12 +192,12 @@ function insertSlot(day, endDay, ns, ne, zid) {
     let origEnd = orig_end_day * 1440 + orig_end;
     if (origEnd <= origStart) origEnd += span;
 
-    const newStart = day * 1440 + new_start;
-    let newEnd = new_end_day * 1440 + new_end;
-    if (newEnd <= newStart) newEnd += span;
+    const newStartAbs = day * 1440 + new_start;
+    let newEndAbs = new_end_day * 1440 + new_end;
+    if (newEndAbs <= newStartAbs) newEndAbs += span;
 
-    const startUnion = Math.min(origStart, newStart);
-    const endUnion = Math.max(origEnd, newEnd);
+    const startUnion = Math.min(origStart, newStartAbs);
+    const endUnion = Math.max(origEnd, newEndAbs);
 
     const oldSlots = [...current.timetable].sort((a, b) => a.m_offset - b.m_offset);
     let expanded = oldSlots
@@ -205,21 +205,32 @@ function insertSlot(day, endDay, ns, ne, zid) {
       .sort((a,b)=>a.m_offset-b.m_offset);
 
     const zoneBefore = getZoneIdAt(expanded, startUnion);
-    const zoneAfter = getZoneIdAt(expanded, Math.max(origEnd, newEnd));
+    const zoneAfter = getZoneIdAt(expanded, endUnion);
 
-    expanded = expanded.filter(s => s.m_offset < startUnion || s.m_offset > endUnion);
+    expanded = expanded.filter(s => !((s.m_offset >= startUnion && s.m_offset <= endUnion) ||
+                                     (s.m_offset >= startUnion + span && s.m_offset <= endUnion + span)));
 
-    expanded.push({ zone_id: zoneBefore, m_offset: startUnion });
-    expanded.push({ zone_id: zid, m_offset: newStart });
-    expanded.push({ zone_id: zoneAfter, m_offset: newEnd });
+    if (startUnion < newStartAbs || startUnion < origStart)
+      expanded.push({ zone_id: zoneBefore, m_offset: startUnion });
+    expanded.push({ zone_id: zid, m_offset: newStartAbs });
+    expanded.push({ zone_id: zoneAfter, m_offset: newEndAbs });
 
     expanded.sort((a,b)=>a.m_offset-b.m_offset);
+    expanded = expanded.map(s => ({ zone_id: s.zone_id, m_offset: s.m_offset % span }))
+                       .sort((a,b)=>a.m_offset-b.m_offset);
+
+    const compressed = [];
+    for (const seg of expanded) {
+      if (compressed.length && compressed[compressed.length-1].m_offset === seg.m_offset)
+        compressed[compressed.length-1] = seg;
+      else
+        compressed.push(seg);
+    }
 
     const merged = [];
-    for (const seg of expanded) {
-      const off = seg.m_offset % span;
-      if (merged.length && merged[merged.length-1].zone_id === seg.zone_id) continue;
-      merged.push({ zone_id: seg.zone_id, m_offset: off });
+    for (const seg of compressed) {
+      if (!merged.length || merged[merged.length-1].zone_id !== seg.zone_id)
+        merged.push(seg);
     }
 
     current.timetable = merged;
