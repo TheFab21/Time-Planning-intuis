@@ -36,6 +36,9 @@
   </style>
 </head>
 <body>
+    <div id="feedback" style="display:none;position:fixed;left:50%;top:60px;transform:translateX(-50%);
+background:#fffbe8;border:1px solid #fae3a3;padding:13px 23px;font-size:15px;border-radius:7px;box-shadow:0 2px 8px #0002;z-index:99;"></div>
+
   <h2>Therm Planning – Semaine complète</h2>
   <div class="top-controls">
     <label>Planning : <select id="planner"></select></label>
@@ -238,6 +241,14 @@ function insertSlot(day, endDay, ns, ne, zid) {
     markDirty();
     render();
   }
+function showFeedback(msg, ok=true) {
+  const f = document.getElementById('feedback');
+  f.textContent = msg;
+  f.style.display = "block";
+  f.style.background = ok ? "#e8fbe8" : "#fff0f0";
+  f.style.borderColor = ok ? "#a3fab5" : "#faada3";
+  setTimeout(() => { f.style.display = "none"; }, 4000);
+}
 
 
 
@@ -397,22 +408,67 @@ function insertSlot(day, endDay, ns, ne, zid) {
   };
 
   saveBtn.onclick = async () => {
-    if (!dirty) return;
-    await hass.callService('mqtt', 'publish', {
-      topic: `plannings/${sel.value.split('.')[1]}/set`,
-      payload: JSON.stringify({
-        timetable: current.timetable,
-        zones: current.zones,
-        away_temp: current.away_temp,
-        hg_temp: current.hg_temp
-      }),
-      retain: true
-    });
-    dirty = false; saveBtn.disabled = true;
-    alert('MQTT envoyé');
-    setTimeout(()=>render(true), 900);
-    location.reload();
+  if (!dirty) return;
+  await hass.callService('mqtt', 'publish', {
+    topic: `plannings/${sel.value.split('.')[1]}/set`,
+    payload: JSON.stringify({
+      timetable: current.timetable,
+      zones: current.zones,
+      away_temp: current.away_temp,
+      hg_temp: current.hg_temp
+    }),
+    retain: true
+  });
+  dirty = false; saveBtn.disabled = true;
+
+  // --- On surveille le retour MQTT ---
+  const schedule_id = sel.value.split('.')[1];
+  const resultSensor = `sensor.result_${schedule_id}`;
+  let tries = 0;
+  let prevStamp = 0;
+  // Essaie de trouver le sensor tout de suite
+  let st = hass.states[resultSensor];
+  if (st) prevStamp = st.attributes.timestamp || 0;
+  
+  const showFeedback = (msg, ok) => {
+    // Affiche un message à l'utilisateur dans une popup ou un toast
+    alert(msg); // Simple, mais tu peux faire mieux (modal, etc)
   };
+
+  const getHA = () => (
+    window.parent && window.parent.document.querySelector('home-assistant')
+      ? window.parent.document.querySelector('home-assistant').hass
+      : window.hass
+  );
+
+  const check = setInterval(() => {
+    tries++;
+    const hassNow = getHA();
+    const st = hassNow.states[resultSensor];
+    const curStamp = st?.attributes?.timestamp || 0;
+    if (curStamp !== prevStamp && curStamp > 0) {
+      clearInterval(check);
+      const ok = st.state === "true" || st.state === true || st.state === "ok";
+      showFeedback((ok ? "✅ " : "❌ ") + (st.attributes.message || "Aucun message"), ok);
+      setTimeout(()=>render(true), 900);
+      location.reload();
+    } else if (tries > 20) {
+      clearInterval(check);
+      showFeedback("❌ Pas de retour reçu (timeout)", false);
+    }
+  }, 800);
+};
+
+
+
+// Une simple fonction pour afficher une "popup"/feedback dans la page
+function showPopup(msg) {
+  feedbackDiv.textContent = msg;
+  feedbackDiv.style.display = "block";
+  // Optionnel : cacher après 5 sec
+  setTimeout(() => { feedbackDiv.style.display = "none"; }, 5000);
+}
+
 
   render(true);
 })();
