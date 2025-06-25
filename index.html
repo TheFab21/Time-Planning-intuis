@@ -2,40 +2,41 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Therm Planning - Semaine complete</title>
+  <title>Therm Planning – Semaine complète</title>
   <style>
-    body { font-family: sans-serif; margin: 0; padding: 16px; background: var(--primary-background-color, #fafafa); color: var(--primary-text-color, #212121); }
+    body { font-family: sans-serif; margin: 0; padding: 16px; background: #fafafa; color: #212121; }
     h2 { margin: 0 0 12px; }
     select, button, input { font: inherit; }
     #week { margin-top: 16px; border-top: 1px solid #ccc; }
-    .row { display: flex; align-items: center; margin: 2px 0; font-size: 11px; }
+    .row { display: flex; align-items: center; margin: 2px 0; font-size: 12px; }
     .lbl { width: 42px; text-align: right; padding-right: 4px; }
-    .bar { flex: 1; position: relative; height: 22px; border: 1px solid #ccc; display: flex; }
-    .seg { cursor: pointer; height: 100%; }
-    .tick { position: absolute; top: -12px; font-size: 9px; transform: translateX(-50%); }
+    .bar { flex: 1; position: relative; height: 22px; border: 1px solid #ccc; display: flex; background: #fafbfc; border-radius: 7px; margin: 0 8px; overflow: hidden;}
+    .seg { cursor: pointer; height: 100%; border-radius: 0; transition: filter .17s;}
+    .seg:hover { filter: brightness(1.16) contrast(1.08); outline: 2px solid #666; z-index: 1; }
+    .tick { position: absolute; top: -12px; font-size: 9px; transform: translateX(-50%); color: #888; }
     .legend { display: flex; flex-wrap: wrap; gap: 8px; font-size: 11px; margin: 10px 0; }
     .legend span { display: flex; align-items: center; gap: 4px; }
-    .legend i { width: 12px; height: 12px; border: 1px solid #666; display: inline-block; }
-    #zones { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px;}
+    .legend i { width: 14px; height: 14px; border: 1px solid #888; border-radius: 3px; display: inline-block; }
+    #zones { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; }
     .zonebox { border-radius: 7px; border: 1px solid #ccc; padding: 8px; min-width: 180px; background: var(--zone-bg,#fff); box-shadow: 0 1px 3px #0001;}
     .zonebox h4 { margin: 0 0 6px 0; font-size: 15px; display: flex; align-items: center; gap: 6px;}
     .zonecolor { width: 18px; height: 18px; border-radius: 4px; display: inline-block; vertical-align: middle;}
-    .temp { display: flex; align-items: center; gap: 7px; margin: 4px 0; font-size: 12px; }
-    .temp span:first-child { width: 90px; overflow: hidden; text-overflow: ellipsis; }
+    .temp { display: flex; align-items: center; gap: 7px; margin: 4px 0; font-size: 13px; }
+    .temp span:first-child { width: 92px; overflow: hidden; text-overflow: ellipsis; }
     .temp input[type="number"] { width: 44px; padding: 2px 3px; }
     .plusbtn { background: #eee; border: 1px solid #aaa; border-radius: 50%; font-size: 16px; width: 22px; height: 22px; cursor: pointer; margin-left: 10px;}
     .top-controls { display: flex; align-items: center; gap: 18px;}
     .t-edit { display: flex; gap: 10px; align-items: center; margin-bottom: 10px;}
     .t-edit label {font-size:13px;}
     .t-edit input[type="number"] { width:38px; }
-    dialog { border: none; border-radius: 8px; padding: 18px; box-shadow: 0 4px 12px rgba(0,0,0,.25); width: 280px; }
+    dialog { border: none; border-radius: 8px; padding: 18px; box-shadow: 0 4px 12px rgba(0,0,0,.25); width: 300px; }
     dialog::backdrop { background: rgba(0,0,0,.45); }
     dialog label { display: block; margin: 8px 0; font-size: 14px; }
     dialog menu { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
   </style>
 </head>
 <body>
-  <h2>Therm Planning - Semaine complete</h2>
+  <h2>Therm Planning – Semaine complète</h2>
   <div class="top-controls">
     <label>Planning : <select id="planner"></select></label>
     <span class="t-edit">
@@ -45,56 +46,56 @@
   </div>
   <div id="week"></div>
   <div id="legend" class="legend"></div>
-  <h3>Temperatures par zone</h3>
+  <h3>Températures par zone</h3>
   <div id="zones"></div>
   <button id="save" disabled>Enregistrer</button>
   <dialog id="dlg">
     <form method="dialog">
-      <h3>Editer creneau</h3>
-      <label>Debut <input type="time" id="dStart" required></label>
+      <h3 id="dlgTitle">Éditer créneau</h3>
+      <label>Début <input type="time" id="dStart" required></label>
       <label>Fin   <input type="time" id="dEnd"   required></label>
       <label>Zone <select id="dZone"></select></label>
       <menu>
-        <button value="cancel">Annuler</button>
-        <button value="default">OK</button>
+                    <!-- on met formnovalidate pour bypasser le required -->
+            <button type="submit" value="cancel" formnovalidate>Annuler</button>
+            <button type="submit" value="default">OK</button>
       </menu>
     </form>
   </dialog>
 <script>
 (async()=>{
   const COLORS = ['#4caf50','#2196f3','#ff9800','#9c27b0','#f44336','#3f51b5','#795548','#009688','#00bcd4','#e91e63'];
-  const fmt = m => (String(Math.floor(m/60)).padStart(2,'0'))+':'+(String(m%60).padStart(2,'0'));
+  const fmt = m => `${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`;
   const DAY = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
   const TICKS = [0,360,720,1080];
 
-  function hex2rgba(hex, alpha) {
+  function hex2rgba(hex, alpha=0.23) {
     hex = hex.replace('#','');
-    if(hex.length===3) hex = hex.split('').map(function(x){return x+x;}).join('');
-    var r=parseInt(hex.slice(0,2),16),
-        g=parseInt(hex.slice(2,4),16),
-        b=parseInt(hex.slice(4,6),16);
-    return 'rgba('+r+','+g+','+b+','+alpha+')';
+    if(hex.length===3) hex = hex.split('').map(x=>x+x).join('');
+    const r=parseInt(hex.slice(0,2),16),
+          g=parseInt(hex.slice(2,4),16),
+          b=parseInt(hex.slice(4,6),16);
+    return `rgba(${r},${g},${b},${alpha})`;
   }
 
-  var sel = document.getElementById('planner');
-  var week = document.getElementById('week');
-  var legend = document.getElementById('legend');
-  var zonesDiv = document.getElementById('zones');
-  var saveBtn = document.getElementById('save');
-  var dlg = document.getElementById('dlg');
-  var dStart = document.getElementById('dStart');
-  var dEnd = document.getElementById('dEnd');
-  var dZone = document.getElementById('dZone');
-  var away = document.getElementById('away');
-  var hg = document.getElementById('hg');
+  const sel = document.getElementById('planner');
+  const week = document.getElementById('week');
+  const legend = document.getElementById('legend');
+  const zonesDiv = document.getElementById('zones');
+  const saveBtn = document.getElementById('save');
+  const dlg = document.getElementById('dlg');
+  const dlgTitle = document.getElementById('dlgTitle');
+  const dStart = document.getElementById('dStart');
+  const dEnd = document.getElementById('dEnd');
+  const dZone = document.getElementById('dZone');
+  const away = document.getElementById('away');
+  const hg = document.getElementById('hg');
 
-  var ROOM_MAP = null;
+  let ROOM_MAP = null;
   function getRoomMap(hass) {
     if(ROOM_MAP) return ROOM_MAP;
     ROOM_MAP = {};
-    if(hass.states['sensor.liste_pieces_lens'] && hass.states['sensor.liste_pieces_lens'].attributes && hass.states['sensor.liste_pieces_lens'].attributes.raw_json){
-      hass.states['sensor.liste_pieces_lens'].attributes.raw_json.forEach(function(r){ ROOM_MAP[r.id] = r.name; });
-    }
+    hass.states['sensor.liste_pieces_lens']?.attributes?.raw_json?.forEach(r=> ROOM_MAP[r.id] = r.name);
     return ROOM_MAP;
   }
   function getHass(){
@@ -102,229 +103,279 @@
       return window.parent.document.querySelector('home-assistant').hass;
     return window.hass || null;
   }
-  var hass = null;
-  for(var i=0;i<60;i++){
+  let hass = null;
+  for(let i=0;i<60;i++){
     hass = getHass();
     if(hass) break;
-    await new Promise(function(res){setTimeout(res,150);});
+    await new Promise(res=>setTimeout(res,150));
   }
-  if(!hass) { alert("Impossible de recuperer hass."); return; }
+  if(!hass) { alert("Impossible de récupérer hass."); return; }
 
-  var PLANNERS = Object.entries(hass.states)
-    .filter(function(entry){var id=entry[0],e=entry[1]; return id.startsWith('sensor.') && e.attributes && e.attributes.timetable;});
-  PLANNERS.forEach(function(entry){
-    var id=entry[0],e=entry[1];
-    var o = document.createElement('option');
+  const PLANNERS = Object.entries(hass.states)
+    .filter(([id,e]) => id.startsWith('sensor.') && e.attributes?.timetable);
+  PLANNERS.forEach(([id,e]) => {
+    const o = document.createElement('option');
     o.value = id;
     o.textContent = e.attributes.name || id;
     sel.appendChild(o);
   });
 
-  var current = null, dirty = false, editing;
-  function markDirty() { dirty = true; saveBtn.disabled = false; }
+  let current = null, dirty = false, editing = null;
+  const markDirty = () => { dirty = true; saveBtn.disabled = false; };
 
   function normalize() {
-    var tt = [].concat(current.timetable).sort(function(a,b){return a.m_offset-b.m_offset;});
-    var res = [];
-    for (var d = 0; d < 7; d++) {
-      var base = d * 1440, next = base + 1440;
-      var slots = tt.filter(function(s){return s.m_offset >= base && s.m_offset < next;});
-      var zBefore = tt.filter(function(s){return s.m_offset<base;}).slice(-1)[0];
-      var firstZone = zBefore ? zBefore.zone_id : (slots[0] ? slots[0].zone_id : (tt[0] ? tt[0].zone_id : 0));
+    let tt = [...current.timetable].sort((a,b)=>a.m_offset-b.m_offset);
+    let res = [];
+    for (let d = 0; d < 7; d++) {
+      let base = d * 1440, next = base + 1440;
+      let slots = tt.filter(s => s.m_offset >= base && s.m_offset < next);
+      let firstZone = (tt.filter(s=>s.m_offset<base).slice(-1)[0]?.zone_id) ?? (slots[0]?.zone_id ?? tt[0]?.zone_id ?? 0);
       if (!slots.length || slots[0].m_offset > base) slots.unshift({zone_id: firstZone, m_offset: base});
       if (slots[slots.length-1].m_offset < next) {
-        var lastZone = slots[slots.length-1].zone_id;
+        let lastZone = slots[slots.length-1].zone_id;
         slots.push({zone_id: lastZone, m_offset: next});
       }
-      for (var i=0; i<slots.length-1; i++) res.push({ zone_id: slots[i].zone_id, m_offset: slots[i].m_offset });
+      for (let i=0; i<slots.length-1; i++) res.push({ zone_id: slots[i].zone_id, m_offset: slots[i].m_offset });
     }
-    var merged = [];
-    for (var i=0; i<res.length; i++) {
+    let merged = [];
+    for (let i=0; i<res.length; i++) {
       if (merged.length && merged[merged.length-1].zone_id === res[i].zone_id) continue;
       merged.push(res[i]);
     }
     current.timetable = merged;
   }
-  function zoneAt(tt, offset) {
-    for (var i = tt.length - 1; i >= 0; i--) {
-      if (tt[i].m_offset <= offset) return tt[i].zone_id;
-    }
-    return tt[0] ? tt[0].zone_id : 0;
+
+  function getZoneIdAt(tt, offset) {
+    const before = tt.filter(s => s.m_offset <= offset);
+    if(before.length === 0) return tt.length > 0 ? tt[0].zone_id : 0;
+    return before[before.length - 1].zone_id;
   }
-function insertSlot(timetable, day, start, end, zone_id) {
-    // start et end en minutes sur la journée, day de 0 à 6
-    if (start === end) {
-        console.warn('insertSlot: start and end are identical');
-        return timetable;
-    }
-    const base = day * 1440;
-    const nextBase = ((day + 1) % 7) * 1440;
-    let tt = timetable.slice();
 
-    if (end > start) {
-        // Cas standard, la tranche ne traverse pas minuit
-        // Supprime tous les slots dans [base+start, base+end)
-        tt = tt.filter(s => (s.m_offset < base + start) || (s.m_offset >= base + end));
-        // Ajoute début de la nouvelle zone
-        tt.push({ zone_id, m_offset: base + start });
-        // Pour la zone après, on récupère celle active à l'instant end
-        const afterZone = zoneAt(timetable, base + end);
-        tt.push({ zone_id: afterZone, m_offset: base + end });
-    } else {
-        // Tranche à cheval sur minuit
-        // Premier segment: [start, 1440) sur day et second: [0, end) sur jour suivant
-        tt = tt.filter(s => (s.m_offset < base + start) || (s.m_offset >= base + 1440));
-        tt = tt.filter(s => (s.m_offset < nextBase) || (s.m_offset >= nextBase + end));
+  // === INSERTION ===
+  // === INSERTION ===
+function insertSlot(day, ns, ne, zid) {
+  const base = day * 1440;
+  let tt = [...current.timetable].sort((a, b) => a.m_offset - b.m_offset);
 
-        tt.push({ zone_id, m_offset: base + start });
-        const afterZone = zoneAt(timetable, base + 1440);
-        tt.push({ zone_id: afterZone, m_offset: base + 1440 });
-        tt.push({ zone_id, m_offset: nextBase });
-        const nextAfterZone = zoneAt(timetable, nextBase + end);
-        tt.push({ zone_id: nextAfterZone, m_offset: nextBase + end });
-    }
-    // Tri et merge slots consécutifs avec même zone_id
-    tt = tt.sort((a,b)=>a.m_offset-b.m_offset);
-    let merged = [];
-    for (let s of tt) {
-        if (!merged.length || merged[merged.length-1].zone_id !== s.zone_id) merged.push(s);
-    }
-    return merged;
+  if (ne <= ns) {
+    // Créneau qui traverse minuit : on ne pousse QUE le début et la fin effective
+    const next_day  = (day + 1) % 7;
+    const baseNext  = next_day * 1440;
+    // On enlève tous les évènements strictement à l’intérieur de cette fenêtre
+    tt = tt.filter(s =>
+      !(s.m_offset > base + ns && s.m_offset < baseNext + ne)
+    );
+    // On marque le début du créneau
+    tt.push({ zone_id: zid, m_offset: base + ns });
+    // ...puis sa fin, le lendemain matin
+    tt.push({
+      zone_id: getZoneIdAt(current.timetable, baseNext + ne),
+      m_offset: baseNext + ne
+    });
+  } else {
+    // Cas simple dans la journée
+    tt = tt.filter(s => s.m_offset < base + ns || s.m_offset >= base + ne);
+    tt.push({ zone_id: zid, m_offset: base + ns });
+    tt.push({ zone_id: getZoneIdAt(current.timetable, base + ne), m_offset: base + ne });
+  }
+
+  tt.sort((a, b) => a.m_offset - b.m_offset);
+  let merged = [];
+  for (let i = 0; i < tt.length; i++) {
+    if (merged.length && merged[merged.length-1].zone_id === tt[i].zone_id) continue;
+    merged.push(tt[i]);
+  }
+  current.timetable = merged;
+  markDirty();
+  render();
 }
 
-  function render() {
+
+  // === ÉDITION ===
+function editSlot(day, orig_start, orig_end, new_start, new_end, zid) {
+  const base        = day * 1440;
+  const baseNext    = ((day + 1) % 7) * 1440;
+  const origStart   = base + orig_start;
+  const origEnd     = orig_end > orig_start
+                       ? base + orig_end
+                       : baseNext + orig_end;
+  // copie triée
+  const oldSlots = [...current.timetable].sort((a, b) => a.m_offset - b.m_offset);
+
+  // on récupère la zone qui suivait l'ancien créneau
+  const afterEntry = oldSlots.find(s => s.m_offset === origEnd);
+  const zoneAfter  = afterEntry
+    ? afterEntry.zone_id
+    : getZoneIdAt(oldSlots, origEnd + 1);
+
+  // on supprime les deux repères de l'ancien créneau
+  let tt = oldSlots.filter(s =>
+    s.m_offset !== origStart &&
+    s.m_offset !== origEnd
+  );
+
+  // on insère les deux repères du créneau modifié
+  const newEnd = new_end > new_start
+               ? base + new_end
+               : baseNext + new_end;
+  tt.push({ zone_id: zid,      m_offset: base + new_start });
+  tt.push({ zone_id: zoneAfter, m_offset: newEnd });
+
+  // tri + fusion des segments consécutifs de même zone
+  tt.sort((a, b) => a.m_offset - b.m_offset);
+  current.timetable = tt.filter((seg, i) =>
+    i === 0 || seg.zone_id !== tt[i - 1].zone_id
+  );
+
+  markDirty();
+  render();
+}
+
+
+
+
+
+  function render(force_reload=false) {
     week.textContent = '';
-    var st = hass.states[sel.value];
-    if(!st) { week.textContent = 'Entite introuvable'; return; }
-    current = JSON.parse(JSON.stringify(st.attributes));
-    current.roomMap = getRoomMap(hass);
-    normalize();
+    if (force_reload || !current) {
+      const st = hass.states[sel.value];
+      if(!st) { week.textContent = 'Entité introuvable'; return; }
+      current = JSON.parse(JSON.stringify(st.attributes));
+      current.roomMap = getRoomMap(hass);
+      normalize();
+      dirty = false;
+      saveBtn.disabled = true;
+    }
 
-    away.value = current.away_temp || '';
-    hg.value = current.hg_temp || '';
-    away.onchange = function(){ current.away_temp = Number(away.value); markDirty(); };
-    hg.onchange = function(){ current.hg_temp = Number(hg.value); markDirty(); };
+    away.value = current.away_temp ?? '';
+    hg.value = current.hg_temp ?? '';
+    away.onchange = ()=>{ current.away_temp = Number(away.value); markDirty(); };
+    hg.onchange = ()=>{ current.hg_temp = Number(hg.value); markDirty(); };
 
-    legend.innerHTML = current.zones.map(function(z,i){
-      return '<span><i style="background:'+COLORS[z.id % COLORS.length]+'"></i>'+z.name+'</span>';
-    }).join('');
+    legend.innerHTML = current.zones.map(z =>
+      `<span><i style="background:${COLORS[z.id % COLORS.length]}"></i>${z.name}</span>`
+    ).join('');
 
     week.innerHTML = '';
-    for (var d = 0; d < 7; d++) {
-      var row = document.createElement('div');
+    for (let d = 0; d < 7; d++) {
+      const row = document.createElement('div');
       row.className = 'row';
-      row.innerHTML = '<div class="lbl">'+DAY[d]+'</div><div class="bar"></div><button class="plusbtn" title="Ajouter creneau">+</button>';
-      var bar = row.querySelector('.bar');
-      var plus = row.querySelector('.plusbtn');
+      row.innerHTML = `<div class="lbl">${DAY[d]}</div><div class="bar"></div><button class="plusbtn" title="Ajouter créneau">+</button>`;
+      const bar = row.querySelector('.bar');
+      const plus = row.querySelector('.plusbtn');
 
-      var base = d * 1440, next = base + 1440;
-      var slots = current.timetable
-        .filter(function(s){return s.m_offset >= base && s.m_offset < next;})
-        .map(function(s){return Object.assign({},s);});
-      var prev = current.timetable.filter(function(s){return s.m_offset < base;}).slice(-1)[0];
-      var lastZone = prev ? prev.zone_id : (slots[0] ? slots[0].zone_id : 0);
-      var segments = [];
-      var cursor = 0;
-      for (var i = 0; i < slots.length; i++) {
-        var segStart = slots[i].m_offset - base;
+      const base = d * 1440, next = base + 1440;
+      const slots = current.timetable
+        .filter(s => s.m_offset >= base && s.m_offset < next)
+        .map(s => ({ ...s }));
+      let prev = current.timetable
+        .filter(s => s.m_offset < base)
+        .slice(-1)[0];
+      let lastZone = prev?.zone_id ?? slots[0]?.zone_id ?? 0;
+      let segments = [];
+      let cursor = 0;
+      for (let i = 0; i < slots.length; i++) {
+        let segStart = slots[i].m_offset - base;
         if (segStart > cursor) segments.push({ zone_id: lastZone, start: cursor, end: segStart });
-        var segEnd = (i < slots.length - 1) ? (slots[i + 1].m_offset - base) : 1440;
+        let segEnd = (i < slots.length - 1) ? (slots[i + 1].m_offset - base) : 1440;
         segments.push({ zone_id: slots[i].zone_id, start: segStart, end: segEnd });
         lastZone = slots[i].zone_id;
         cursor = segEnd;
       }
       if (cursor < 1440) segments.push({ zone_id: lastZone, start: cursor, end: 1440 });
 
-      TICKS.forEach(function(t){
-        var tk = document.createElement('span');
+      TICKS.forEach(t => {
+        const tk = document.createElement('span');
         tk.className = 'tick';
-        tk.style.left = (t/14.4)+'%';
+        tk.style.left = `${t/14.4}%`;
         tk.textContent = fmt(t);
         bar.appendChild(tk);
       });
 
-      segments.forEach(function(seg){
-        var div = document.createElement('div');
+      segments.forEach(seg => {
+        const div = document.createElement('div');
         div.className = 'seg';
-        div.style.width = ((seg.end - seg.start) / 14.4) + '%';
+        div.style.width = `${(seg.end - seg.start) / 14.4}%`;
         div.style.background = hex2rgba(COLORS[seg.zone_id % COLORS.length], 0.27);
-        div.title = fmt(seg.start)+'-'+fmt(seg.end)+' / '+(current.zones.find(function(z){return z.id === seg.zone_id;})?.name || ('Zone '+seg.zone_id));
-        div.onclick = function(){
-          openDialog(d, Object.assign({},seg,{m_offset: seg.start + base, zone_id: seg.zone_id}), seg.start, seg.end);
-        };
+        div.title = `${fmt(seg.start)}-${fmt(seg.end)} / ${current.zones.find(z => z.id === seg.zone_id)?.name || 'Zone ' + seg.zone_id}`;
+        div.onclick = () => openDialog('edit', d, { ...seg, m_offset: seg.start + base, zone_id: seg.zone_id }, seg.start, seg.end);
         bar.appendChild(div);
       });
 
-      plus.onclick = function() {
-        openDialog(d, { start: 0, end: 60, zone_id: current.zones[0]?.id || 0, m_offset: base }, 0, 60);
+      plus.onclick = () => {
+        openDialog('insert', d, null, 0, 60);
       };
       week.appendChild(row);
     }
 
     zonesDiv.innerHTML = '';
-    current.zones.forEach(function(z){
-      var zc = COLORS[z.id % COLORS.length];
-      var box = document.createElement('div');
+    current.zones.forEach(z => {
+      const zc = COLORS[z.id % COLORS.length];
+      const box = document.createElement('div');
       box.className = 'zonebox';
       box.style.setProperty('--zone-bg', hex2rgba(zc, 0.13));
-      box.innerHTML = '<h4><span class="zonecolor" style="background:'+zc+'"></span>'+z.name+'</h4>';
-      z.rooms_temp.forEach(function(r){
-        var div = document.createElement('div'); div.className = 'temp';
-        var lab = document.createElement('span'); lab.textContent = current.roomMap[r.room_id] || r.room_id;
-        var inp = document.createElement('input');
+      box.innerHTML = `<h4><span class="zonecolor" style="background:${zc}"></span>${z.name}</h4>`;
+      z.rooms_temp.forEach(r => {
+        const div = document.createElement('div'); div.className = 'temp';
+        const lab = document.createElement('span'); lab.textContent = current.roomMap[r.room_id] || r.room_id;
+        const inp = document.createElement('input');
         inp.type = 'number'; inp.min = 10; inp.max = 25; inp.step = 0.5; inp.value = r.temp;
-        inp.onchange = function(e){ r.temp = +inp.value; markDirty(); };
-        var plusBtn = document.createElement('button'); plusBtn.type = 'button'; plusBtn.textContent = '+'; plusBtn.onclick = function(){ inp.value = (+inp.value + 0.5).toFixed(1); inp.onchange({target:inp}); };
-        var minusBtn = document.createElement('button'); minusBtn.type = 'button'; minusBtn.textContent = '-'; minusBtn.onclick = function(){ inp.value = (+inp.value - 0.5).toFixed(1); inp.onchange({target:inp}); };
-        div.append(lab, minusBtn, inp, plusBtn);
+        inp.onchange = e => { r.temp = +e.target.value; markDirty(); };
+        const plus = document.createElement('button'); plus.type = 'button'; plus.textContent = '+'; plus.onclick = () => { inp.value = (+inp.value + 0.5).toFixed(1); inp.onchange({target:inp}); };
+        const minus = document.createElement('button'); minus.type = 'button'; minus.textContent = '–'; minus.onclick = () => { inp.value = (+inp.value - 0.5).toFixed(1); inp.onchange({target:inp}); };
+        div.append(lab, minus, inp, plus);
         box.appendChild(div);
       });
       zonesDiv.appendChild(box);
     });
   }
 
-  function openDialog(day, slot, start, end) {
+  function openDialog(mode, day, slot, start, end) {
     dZone.innerHTML = '';
-    current.zones.forEach(function(z){
-      var o = document.createElement('option');
+    current.zones.forEach(z => {
+      const o = document.createElement('option');
       o.value = z.id;
       o.textContent = z.name;
       dZone.appendChild(o);
     });
     dStart.value = fmt(start);
     dEnd.value = fmt(end);
-    dZone.value = slot.zone_id;
-    editing = { slot, day };
+    dZone.value = slot?.zone_id ?? current.zones[0]?.id ?? 0;
+    editing = { mode, slot, day, orig_start: start, orig_end: end };
+    dlgTitle.textContent = mode === "edit" ? "Éditer créneau" : "Ajouter créneau";
     dlg.showModal();
   }
 
-  dlg.addEventListener('close', function() {
-    if (dlg.returnValue !== 'default') return;
+  dlg.addEventListener('close', () => {
+    if(dlg.returnValue !== 'default') return;
 
     const [sh, sm] = dStart.value.split(':').map(Number);
     const [eh, em] = dEnd.value.split(':').map(Number);
     const zid = +dZone.value;
     const day = editing.day;
-    const ns = sh * 60 + sm;
-    const ne = eh * 60 + em;
+    let ns = sh * 60 + sm;
+    let ne = eh * 60 + em;
+    if (ne === 0) ne = 1440;
 
-    current.timetable = current.timetable.filter(function(s){
-      return s.m_offset !== editing.slot.m_offset;
-    });
-    current.timetable = insertSlot(current.timetable, day, ns, ne, zid);
-    markDirty();
-    render();
-});
-
+    if(editing.mode === 'insert') {
+      insertSlot(day, ns, ne, zid);
+    } else if(editing.mode === 'edit') {
+      // Pour l'édition, on cherche l'offset d'origine pour bien couper proprement
+      const orig_start = editing.slot.start;
+      const orig_end   = editing.slot.end;
+      editSlot(day, orig_start, orig_end, ns, ne, zid);
+    }
+  });
 
   sel.onchange = function() {
-    week.textContent = 'Chargement...';
-    setTimeout(render, 100);
+    week.textContent = 'Chargement…';
+    setTimeout(()=>render(true), 100);
   };
-  saveBtn.onclick = async function() {
+
+  saveBtn.onclick = async () => {
     if (!dirty) return;
     await hass.callService('mqtt', 'publish', {
-      topic: 'plannings/'+sel.value.split('.')[1]+'/set',
+      topic: `plannings/${sel.value.split('.')[1]}/set`,
       payload: JSON.stringify({
         timetable: current.timetable,
         zones: current.zones,
@@ -334,10 +385,12 @@ function insertSlot(timetable, day, start, end, zone_id) {
       retain: true
     });
     dirty = false; saveBtn.disabled = true;
-    alert('MQTT envoye');
-    setTimeout(render, 900);
+    alert('MQTT envoyé');
+    setTimeout(()=>render(true), 900);
+    location.reload();
   };
-  render();
+
+  render(true);
 })();
 </script>
 </body>
