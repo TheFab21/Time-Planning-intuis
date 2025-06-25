@@ -204,7 +204,7 @@ function insertSlot(day, endDay, ns, ne, zid) {
       .concat(oldSlots.map(s => ({ ...s, m_offset: s.m_offset + span })))
       .sort((a,b)=>a.m_offset-b.m_offset);
 
-    const zoneBefore = getZoneIdAt(expanded, startUnion);
+    const zoneBefore = getZoneIdAt(expanded, (startUnion - 1 + span * 2) % (span * 2));
     const zoneAfter = getZoneIdAt(expanded, endUnion);
 
     expanded = expanded.filter(s => !((s.m_offset >= startUnion && s.m_offset <= endUnion) ||
