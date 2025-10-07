@@ -1,0 +1,5177 @@
+[
+    {
+        "id": "a3667737564f7de1",
+        "type": "tab",
+        "label": "Intuis connect - modèle",
+        "disabled": false,
+        "info": "Créé par Yann V. le 03/07/2024\nDernière mise a jour le 17/10/2024",
+        "env": []
+    },
+    {
+        "id": "1282f94706731784",
+        "type": "group",
+        "z": "a3667737564f7de1",
+        "name": "Connexion préliminaire et récupération du token",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "e2b937effce815c2",
+            "bcf1f2d3e7ca2f6a",
+            "d5b71025d46d7744",
+            "e9494dd20a419ed4",
+            "7970da3f1675a226",
+            "c0591c272dcd2777",
+            "e8596f7f50bc05d8",
+            "9cda1fcc120901f8",
+            "43542daf578a4abb",
+            "d854767798bcbdbf",
+            "20d048608db5e5f5",
+            "cf4a45632cea2d4d",
+            "d3d173a4ed73ae1b"
+        ],
+        "x": 54,
+        "y": 19,
+        "w": 1597,
+        "h": 322
+    },
+    {
+        "id": "b1d3bdb41aec61e1",
+        "type": "group",
+        "z": "a3667737564f7de1",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#a4a4a4"
+        },
+        "nodes": [
+            "b755833499ad267f",
+            "277531f0ba1a6ea6",
+            "48e07c183d26c4ab",
+            "a12d496db209d907",
+            "129f966a0f29d92a",
+            "6fec4dfe0584cfb1",
+            "531528e158634dab",
+            "5956786c32542061",
+            "c7c208fc104c4168",
+            "26145049672b8fdd",
+            "27405eacdabc8f66",
+            "d128cae9b0e2cf45",
+            "54c0d284f7d3bfe2",
+            "28e41332c9d268ea",
+            "1bbf4fe2031bc85b",
+            "94df6c8058225842",
+            "ad3eee4825b32a4b",
+            "88e74568be0f092f",
+            "fdd2becf2693b61c",
+            "fbbe4368ed84a6c5",
+            "99756c9d699f3239",
+            "6c100f59f14291b6",
+            "6c450f5bbf3d4c57",
+            "021da8220fbc5550",
+            "9abd987efd9b7546",
+            "4cfd2835fa680165",
+            "3857c28b8862d75c",
+            "b91c58d27d54e5df",
+            "0deb5c6d429f4ece",
+            "9b94f09b171de499",
+            "e141e4595a4b6e16",
+            "a0e9a9d273856931",
+            "bd3c37e931f40b40",
+            "b8d10f455c93a148",
+            "065ca84be94dbe41",
+            "97e9f286fc9a5665",
+            "384661809c003895",
+            "36b119d798d1f09b",
+            "5f97191c87be0997",
+            "1a04b2760fa9722a",
+            "402ca2eec0855371",
+            "9be212ece344d070",
+            "08a6a40e838d1204",
+            "c46e5b648a6e0f34",
+            "974fedc8994ad3d2",
+            "80d79edc3dcb6da3",
+            "23ed5e92fa3e3e50",
+            "91d09adf1e62589c",
+            "ca91338c5feea99f",
+            "b7cb94065f5b777b",
+            "dc3f946f501c8c97",
+            "746d36e6ebe9c381",
+            "db2894edb0520171",
+            "7ddd3550788087fb",
+            "d817b31516902f7c",
+            "ecd8e9857be09e06",
+            "5094e59c96a7f35e"
+        ],
+        "x": 534,
+        "y": 939,
+        "w": 2282,
+        "h": 742
+    },
+    {
+        "id": "8e811f3b7ee28fb8",
+        "type": "junction",
+        "z": "a3667737564f7de1",
+        "x": 2300,
+        "y": 1140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e2b937effce815c2",
+        "type": "http request",
+        "z": "a3667737564f7de1",
+        "g": "1282f94706731784",
+        "name": "Send refresh request",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://app.muller-intuitiv.net/oauth2/token",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Content-Type",
+                "keyValue": "",
+                "valueType": "other",
+                "valueValue": "application/x-www-form-urlencoded"
+            }
+        ],
+        "x": 1060,
+        "y": 160,
+        "wires": [
+            [
+                "c0591c272dcd2777",
+                "20d048608db5e5f5"
+            ]
+        ]
+    },
+    {
+        "id": "bcf1f2d3e7ca2f6a",
+        "type": "inject",
+        "z": "a3667737564f7de1",
+        "g": "1282f94706731784",
+        "name": "Start",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 140,
+        "wires": [
+            [
+                "d5b71025d46d7744"
+            ]
+        ]
+    },
+    {
+        "id": "d5b71025d46d7744",
+        "type": "change",
+        "z": "a3667737564f7de1",
+        "g": "1282f94706731784",
+        "name": "Set param request refresh",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\t   \"client_id\": $env(\"ClientId\"),\t   \"user_prefix\":\"muller\",\t   \"client_secret\":$env(\"ClientSecret\"),\t   \"grant_type\":\"password\",\t   \"scope\":\"read_muller write_muller\",\t   \"password\":$env(\"password\"),\t   \"username\":$env(\"username\")\t}",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 770,
+        "y": 160,
+        "wires": [
+            [
+                "e2b937effce815c2",
+                "d3d173a4ed73ae1b"
+            ]
+        ]
+    },
+    {
+        "id": "e9494dd20a419ed4",
+        "type": "change",
+        "z": "a3667737564f7de1",
+        "g": "1282f94706731784",
+        "name": "Store tokens & delay",
+        "rules": [
+            {
+                "t": "set",
+                "p": "AccessToken",
+                "pt": "global",
+                "to": "payload.access_token",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "RefreshToken",
+                "pt": "global",
+                "to": "payload.refresh_token",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "delay",
+                "pt": "msg",
+                "to": "payload.expires_in*1000-300000",
+                "tot": "jsonata"
+            },
+            {
+                "t": "set",
+                "p": "status",
+                "pt": "msg",
+                "to": "OK",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "LastUpdateTime",
+                "pt": "global",
+                "to": "",
+                "tot": "date"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1540,
+        "y": 100,
+        "wires": [
+            [
+                "9cda1fcc120901f8",
+                "43542daf578a4abb"
+            ]
+        ]
+    },
+    {
+        "id": "7970da3f1675a226",
+        "type": "inject",
+        "z": "a3667737564f7de1",
+        "g": "1282f94706731784",
+        "name": "Stop",
+        "props": [
+            {
+                "p": "reset",
+                "v": "1",
+                "vt": "num"
+            },
+            {
+                "p": "status",
+                "v": "STOP",
+                "vt": "str"
+            },
+            {
+                "p": "delay",
+                "v": "1",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 150,
+        "y": 200,
+        "wires": [
+            [
+                "9cda1fcc120901f8",
+                "43542daf578a4abb",
+                "d854767798bcbdbf"
+            ]
+        ]
+    },
+    {
+        "id": "c0591c272dcd2777",
+        "type": "switch",
+        "z": "a3667737564f7de1",
+        "g": "1282f94706731784",
+        "name": "All ok ?",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "hask",
+                "v": "access_token",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1300,
+        "y": 160,
+        "wires": [
+            [
+                "e9494dd20a419ed4"
+            ],
+            [
+                "e8596f7f50bc05d8"
+            ]
+        ],
+        "outputLabels": [
+            "Response OK",
+            "Error"
+        ]
+    },
+    {
+        "id": "e8596f7f50bc05d8",
+        "type": "change",
+        "z": "a3667737564f7de1",
+        "g": "1282f94706731784",
+        "name": "Delay 1 hour on error",
+        "rules": [
+            {
+                "t": "set",
+                "p": "delay",
+                "pt": "msg",
+                "to": "3600000",
+                "tot": "num"
+            },
+            {
+                "t": "set",
+                "p": "status",
+                "pt": "msg",
+                "to": "KO",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "NetatmoLastUpdateTime",
+                "pt": "global",
+                "to": "",
+                "tot": "date"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1545,
+        "y": 220,
+        "wires": [
+            [
+                "9cda1fcc120901f8",
+                "43542daf578a4abb"
+            ]
+        ]
+    },
+    {
+        "id": "9cda1fcc120901f8",
+        "type": "delay",
+        "z": "a3667737564f7de1",
+        "g": "1282f94706731784",
+        "name": "Refresh",
+        "pauseType": "delayv",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 465,
+        "y": 160,
+        "wires": [
+            [
+                "d5b71025d46d7744"
+            ]
+        ]
+    },
+    {
+        "id": "43542daf578a4abb",
+        "type": "delay",
+        "z": "a3667737564f7de1",
+        "g": "1282f94706731784",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 465,
+        "y": 220,
+        "wires": [
+            [
+                "d854767798bcbdbf"
+            ]
+        ]
+    },
+    {
+        "id": "d854767798bcbdbf",
+        "type": "function",
+        "z": "a3667737564f7de1",
+        "g": "1282f94706731784",
+        "name": "Next refresh in...",
+        "func": "var d = new Date();\nvar n = d.getTime();\nvar start_time = global.get('LastUpdateTime')||0;\nvar duration = msg.delay/1000;\nvar elapsed_time = Math.round((n - start_time)/1000);\n\nvar remains = new Date(null);\nremains.setSeconds(duration - elapsed_time); // specify value for SECONDS here\nvar remains_h = remains.toISOString().substr(11, 8);\nif (msg.status == \"STOP\") {\n    node.status({});\n    msg.remains = \"00:00:00\";\n    msg.payload = 0;\n    return [null, msg];\n}\nif (elapsed_time < duration) {\n    node.status({fill:msg.status == \"OK\" ? \"blue\" : \"red\",shape:\"dot\", text:remains_h});\n    msg.remains = remains_h;\n    return [ msg, null ];\n}\n\n",
+        "outputs": 2,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 300,
+        "wires": [
+            [
+                "43542daf578a4abb"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "0b708dd99a7fdecb",
+        "type": "change",
+        "z": "a3667737564f7de1",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "token",
+                "pt": "msg",
+                "to": "\"Bearer \" & $globalContext(\"AccessToken\")\t",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 210,
+        "y": 600,
+        "wires": [
+            [
+                "4adc010b8102129c",
+                "67ee9631179a9d0f"
+            ]
+        ]
+    },
+    {
+        "id": "4adc010b8102129c",
+        "type": "http request",
+        "z": "a3667737564f7de1",
+        "name": "Intuis homedata",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://app.muller-intuitiv.net/api/homesdata",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Authorization",
+                "valueType": "msg",
+                "valueValue": "token"
+            }
+        ],
+        "x": 1080,
+        "y": 600,
+        "wires": [
+            [
+                "58e86513b5620844",
+                "19f864237658d884",
+                "4eb030f7e69e9077",
+                "a4df9b81c4858403",
+                "7ffa5b33183e8288",
+                "36a0cb2827584267",
+                "c34398519cc2c89e",
+                "7b3560f6d14a8682",
+                "81ee618688b33a69"
+            ]
+        ]
+    },
+    {
+        "id": "311e5c9e03e928ce",
+        "type": "inject",
+        "z": "a3667737564f7de1",
+        "name": "Get Intuis Data",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "450",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 500,
+        "wires": [
+            [
+                "0b708dd99a7fdecb"
+            ]
+        ]
+    },
+    {
+        "id": "20d048608db5e5f5",
+        "type": "debug",
+        "z": "a3667737564f7de1",
+        "g": "1282f94706731784",
+        "name": "contrôle authentification",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1230,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "626dc70dbf75a137",
+        "type": "http request",
+        "z": "a3667737564f7de1",
+        "name": "Intuis getconfig",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://app.muller-intuitiv.net/syncapi/v1/getconfigs",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Authorization",
+                "valueType": "msg",
+                "valueValue": "token"
+            },
+            {
+                "keyType": "Content-Type",
+                "keyValue": "",
+                "valueType": "other",
+                "valueValue": "application/x-www-form-urlencoded"
+            }
+        ],
+        "x": 720,
+        "y": 700,
+        "wires": [
+            [
+                "e011522b9b1daca4"
+            ]
+        ]
+    },
+    {
+        "id": "e011522b9b1daca4",
+        "type": "debug",
+        "z": "a3667737564f7de1",
+        "name": "Intuis getconfig",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "58e86513b5620844",
+        "type": "debug",
+        "z": "a3667737564f7de1",
+        "name": "Intuis homedata",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.body.homes[0]",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1520,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "d9f2befaac2b726d",
+        "type": "change",
+        "z": "a3667737564f7de1",
+        "name": "Set param get config 1",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\t   \"home_id\":$globalContext(\"home_id\")\t}",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 500,
+        "y": 700,
+        "wires": [
+            [
+                "626dc70dbf75a137",
+                "b755833499ad267f"
+            ]
+        ]
+    },
+    {
+        "id": "cf4a45632cea2d4d",
+        "type": "comment",
+        "z": "a3667737564f7de1",
+        "g": "1282f94706731784",
+        "name": "Renseigner les identifiants Intuis connect dans les parametres du NODE",
+        "info": "Noeud Set Intuis Creds & Tokens\nrenseigner ClientId, ClientSecret, username et password dans les parametres node-red\n",
+        "x": 330,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "19f864237658d884",
+        "type": "change",
+        "z": "a3667737564f7de1",
+        "name": "Identifier les pièces",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload.rooms.0.name",
+                "pt": "msg",
+                "to": "payload.body.homes[0].rooms[0].name",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.rooms.0.id",
+                "pt": "msg",
+                "to": "payload.body.homes[0].rooms[0].id",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.rooms.1.name",
+                "pt": "msg",
+                "to": "payload.body.homes[0].rooms[1].name",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.rooms.1.id",
+                "pt": "msg",
+                "to": "payload.body.homes[0].rooms[1].id",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.rooms.2.name",
+                "pt": "msg",
+                "to": "payload.body.homes[0].rooms[2].name",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.rooms.2.id",
+                "pt": "msg",
+                "to": "payload.body.homes[0].rooms[2].id",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.rooms.3.name",
+                "pt": "msg",
+                "to": "payload.body.homes[0].rooms[3].name",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.rooms.3.id",
+                "pt": "msg",
+                "to": "payload.body.homes[0].rooms[3].id",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.rooms.4.name",
+                "pt": "msg",
+                "to": "payload.body.homes[0].rooms[4].name",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.rooms.4.id",
+                "pt": "msg",
+                "to": "payload.body.homes[0].rooms[4].id",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.rooms.5.name",
+                "pt": "msg",
+                "to": "payload.body.homes[0].rooms[5].name",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.rooms.5.id",
+                "pt": "msg",
+                "to": "payload.body.homes[0].rooms[5].id",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.rooms.6.name",
+                "pt": "msg",
+                "to": "payload.body.homes[0].rooms[6].name",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.rooms.6.id",
+                "pt": "msg",
+                "to": "payload.body.homes[0].rooms[6].id",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.rooms.7.name",
+                "pt": "msg",
+                "to": "payload.body.homes[0].rooms[7].name",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.rooms.7.id",
+                "pt": "msg",
+                "to": "payload.body.homes[0].rooms[7].id",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.rooms.8.name",
+                "pt": "msg",
+                "to": "payload.body.homes[0].rooms[8].name",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.rooms.8.id",
+                "pt": "msg",
+                "to": "payload.body.homes[0].rooms[8].id",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.rooms.9.name",
+                "pt": "msg",
+                "to": "payload.body.homes[0].rooms[9].name",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.rooms.9.id",
+                "pt": "msg",
+                "to": "payload.body.homes[0].rooms[9].id",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.rooms.10.name",
+                "pt": "msg",
+                "to": "payload.body.homes[0].rooms[10].name",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.rooms.10.id",
+                "pt": "msg",
+                "to": "payload.body.homes[0].rooms[10].id",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.rooms.11.name",
+                "pt": "msg",
+                "to": "payload.body.homes[0].rooms[11].name",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload.rooms.11.id",
+                "pt": "msg",
+                "to": "payload.body.homes[0].rooms[11].id",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1530,
+        "y": 400,
+        "wires": [
+            [
+                "a7cf91f7859e0c4a",
+                "81b1bef51f82d97a"
+            ]
+        ]
+    },
+    {
+        "id": "a7cf91f7859e0c4a",
+        "type": "debug",
+        "z": "a3667737564f7de1",
+        "name": "Identifier les pièces",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.rooms",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1890,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "4eb030f7e69e9077",
+        "type": "change",
+        "z": "a3667737564f7de1",
+        "name": "définir global.home_id et home_name",
+        "rules": [
+            {
+                "t": "set",
+                "p": "home_id",
+                "pt": "global",
+                "to": "payload.body.homes[0].id",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "home_name",
+                "pt": "global",
+                "to": "payload.body.homes[0].name",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1590,
+        "y": 680,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "67ee9631179a9d0f",
+        "type": "delay",
+        "z": "a3667737564f7de1",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "2",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 440,
+        "y": 640,
+        "wires": [
+            [
+                "d9f2befaac2b726d"
+            ]
+        ]
+    },
+    {
+        "id": "a4df9b81c4858403",
+        "type": "function",
+        "z": "a3667737564f7de1",
+        "name": "Identification routeur",
+        "func": "if (msg.payload.body.homes[0].modules[0].type === \"NMG\") {\n    msg.payload = msg.payload.body.homes[0].modules[0];\n    return msg;}\nelse if (msg.payload.body.homes[0].modules[1].type === \"NMG\") {\n    msg.payload = msg.payload.body.homes[0].modules[1];\n    return msg;}\nelse if (msg.payload.body.homes[0].modules[2].type === \"NMG\") {\n    msg.payload = msg.payload.body.homes[0].modules[2];\n    return msg;}\nelse if (msg.payload.body.homes[0].modules[3].type === \"NMG\") {\n    msg.payload = msg.payload.body.homes[0].modules[3];\n    return msg;}\nelse {msg.payload = \"ko\";\n    return msg;}\t \t ",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1540,
+        "y": 820,
+        "wires": [
+            [
+                "940fc48d0b83b26f"
+            ]
+        ]
+    },
+    {
+        "id": "940fc48d0b83b26f",
+        "type": "change",
+        "z": "a3667737564f7de1",
+        "name": "définir global routeur_id et routeur_name",
+        "rules": [
+            {
+                "t": "set",
+                "p": "routeur_id",
+                "pt": "global",
+                "to": "payload.id",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "routeur_name",
+                "pt": "global",
+                "to": "payload.name",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1840,
+        "y": 820,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7ffa5b33183e8288",
+        "type": "change",
+        "z": "a3667737564f7de1",
+        "name": "définir rooms_ids ",
+        "rules": [
+            {
+                "t": "set",
+                "p": "room0_id",
+                "pt": "global",
+                "to": "payload.body.homes[0].rooms[0].id",
+                "tot": "msg",
+                "dc": true
+            },
+            {
+                "t": "set",
+                "p": "room1_id",
+                "pt": "global",
+                "to": "payload.body.homes[0].rooms[1].id",
+                "tot": "msg",
+                "dc": true
+            },
+            {
+                "t": "set",
+                "p": "room2_id",
+                "pt": "global",
+                "to": "payload.body.homes[0].rooms[2].id",
+                "tot": "msg",
+                "dc": true
+            },
+            {
+                "t": "set",
+                "p": "room3_id",
+                "pt": "global",
+                "to": "payload.body.homes[0].rooms[3].id",
+                "tot": "msg",
+                "dc": true
+            },
+            {
+                "t": "set",
+                "p": "room4_id",
+                "pt": "global",
+                "to": "payload.body.homes[0].rooms[4].id",
+                "tot": "msg",
+                "dc": true
+            },
+            {
+                "t": "set",
+                "p": "room5_id",
+                "pt": "global",
+                "to": "payload.body.homes[0].rooms[5].id",
+                "tot": "msg",
+                "dc": true
+            },
+            {
+                "t": "set",
+                "p": "room6_id",
+                "pt": "global",
+                "to": "payload.body.homes[0].rooms[6].id",
+                "tot": "msg",
+                "dc": true
+            },
+            {
+                "t": "set",
+                "p": "room7_id",
+                "pt": "global",
+                "to": "payload.body.homes[0].rooms[7].id",
+                "tot": "msg",
+                "dc": true
+            },
+            {
+                "t": "set",
+                "p": "room8_id",
+                "pt": "global",
+                "to": "payload.body.homes[0].rooms[8].id",
+                "tot": "msg",
+                "dc": true
+            },
+            {
+                "t": "set",
+                "p": "room9_id",
+                "pt": "global",
+                "to": "payload.body.homes[0].rooms[9].id",
+                "tot": "msg",
+                "dc": true
+            },
+            {
+                "t": "set",
+                "p": "room10_id",
+                "pt": "global",
+                "to": "payload.body.homes[0].rooms[10].id",
+                "tot": "msg",
+                "dc": true
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1530,
+        "y": 620,
+        "wires": [
+            [
+                "843cabbcfe2111e8"
+            ]
+        ]
+    },
+    {
+        "id": "faac28666fd1e872",
+        "type": "comment",
+        "z": "a3667737564f7de1",
+        "name": "A compléter selon nombre de pièces ",
+        "info": "",
+        "x": 1580,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "843cabbcfe2111e8",
+        "type": "function",
+        "z": "a3667737564f7de1",
+        "name": "function 1",
+        "func": "msg.payload = {\n    room0_id: global.get(\"room0_id\"),\n    room1_id: global.get(\"room1_id\"),\n    room2_id: global.get(\"room2_id\"),\n    room3_id: global.get(\"room3_id\"),\n    room4_id: global.get(\"room4_id\"),\n    room5_id: global.get(\"room5_id\"),\n    room6_id: global.get(\"room6_id\"),\n    room7_id: global.get(\"room7_id\"),\n    room8_id: global.get(\"room8_id\"),\n    room9_id: global.get(\"room9_id\"),\n    room10_id: global.get(\"room10_id\"),\n    room11_id: global.get(\"room11_id\")\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1740,
+        "y": 620,
+        "wires": [
+            [
+                "84a7abe85ead2568"
+            ]
+        ]
+    },
+    {
+        "id": "84a7abe85ead2568",
+        "type": "debug",
+        "z": "a3667737564f7de1",
+        "name": "debug 1",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1940,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "36a0cb2827584267",
+        "type": "function",
+        "z": "a3667737564f7de1",
+        "name": "Création ou maj des pièces dans HA",
+        "func": "let rooms = msg.payload.body.homes[0].rooms;\nlet roomNames = {};\nlet options = [];\n\nfor (let i = 0; i < rooms.length; i++) {\n    let name = rooms[i].name;\n    let id = rooms[i].id;\n    options.push(name);\n    roomNames[name] = id;\n}\n\n// Sauvegarder pour plus tard\nglobal.set(\"room_name_to_id\", roomNames);\n\n// Envoyer les options à Home Assistant\nmsg.payload = {\n    entity_id: \"input_select.choix_piece1\",\n    options: options\n};\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1590,
+        "y": 880,
+        "wires": [
+            [
+                "c649f6b82a6c545c"
+            ]
+        ]
+    },
+    {
+        "id": "c34398519cc2c89e",
+        "type": "change",
+        "z": "a3667737564f7de1",
+        "name": "Identifier les plannings",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload.therm_schedules",
+                "pt": "msg",
+                "to": "payload.body.homes[0].therm_schedules",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1540,
+        "y": 500,
+        "wires": [
+            [
+                "7033ac8c1bf74ae0",
+                "7cfe4f7b8f4e8bcf",
+                "publish_plannings_mqtt",
+                "225dceec4b6b2ce7",
+                "a14534a999bdec1e"
+            ]
+        ]
+    },
+    {
+        "id": "7033ac8c1bf74ae0",
+        "type": "debug",
+        "z": "a3667737564f7de1",
+        "name": "Liste des plannings",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1890,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "2980cf284d68f799",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "name": "Mode fonctionnement Maison",
+        "entityConfig": "6c0257c5859242a5",
+        "version": 0,
+        "state": "payload.body.homes[0].therm_mode",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 2270,
+        "y": 560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7b3560f6d14a8682",
+        "type": "function",
+        "z": "a3667737564f7de1",
+        "name": "Mapping Etat",
+        "func": "const mode = msg.payload.body.homes[0].therm_mode;\n\nconst mapping = {\n    \"hg\": \"Hors Gel\",\n    \"away\": \"Dehors\",\n    \"schedule\": \"Programmé\",\n    \"home\": \"Maison chauffée\"\n};\n\nmsg.payload.body.homes[0].therm_mode = mapping[mode] || \"inconnu\";\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1510,
+        "y": 560,
+        "wires": [
+            [
+                "2980cf284d68f799"
+            ]
+        ]
+    },
+    {
+        "id": "d3d173a4ed73ae1b",
+        "type": "debug",
+        "z": "a3667737564f7de1",
+        "g": "1282f94706731784",
+        "name": "debug 4",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1020,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "8073b97687d0ad3a",
+        "type": "debug",
+        "z": "a3667737564f7de1",
+        "name": "liste pieces",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2490,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "c649f6b82a6c545c",
+        "type": "ha-update-config",
+        "z": "a3667737564f7de1",
+        "name": "Update liste de choix pièce",
+        "server": "553a4a33f70c2e19",
+        "entityConfig": "7b6075a0b55c0b0a",
+        "version": 0,
+        "outputProperties": [],
+        "x": 2260,
+        "y": 880,
+        "wires": [
+            [
+                "8073b97687d0ad3a"
+            ]
+        ]
+    },
+    {
+        "id": "7cfe4f7b8f4e8bcf",
+        "type": "function",
+        "z": "a3667737564f7de1",
+        "name": "Extrait les planififactions",
+        "func": "// On récupère la liste des plannings\nconst plannings = msg.payload.body.homes[0].therm_schedules;\nconst outMsgs = [];\n\nfor (let i = 0; i < plannings.length; i++) {\n    const planning = plannings[i];\n    const entity_id = `input_text.therm_schedule_${planning.id}`;\n    const schedule_json = JSON.stringify(planning);\n\n    outMsgs.push({\n        payload: {\n            entity_id: entity_id,\n            value: schedule_json\n        }\n    });\n}\n\n// On sort un message par planning\nreturn [outMsgs];\n\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1910,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "81b1bef51f82d97a",
+        "type": "function",
+        "z": "a3667737564f7de1",
+        "name": "Extrait les pièces",
+        "func": "// Function Node en sortie de ton appel API\nconst home = msg.payload.body.homes[0].rooms;\nmsg.payload = {\n  entity_id: \"sensor.liste_pieces_lens\",\n  state: new Date().toISOString(),\n  attributes: {\n    raw_json: home     // la totalité de l’objet home\n  }\n};\nreturn msg;\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1890,
+        "y": 180,
+        "wires": [
+            [
+                "496d5cdfd9ade0d4",
+                "d8c69b01d084111f"
+            ]
+        ]
+    },
+    {
+        "id": "496d5cdfd9ade0d4",
+        "type": "debug",
+        "z": "a3667737564f7de1",
+        "name": "Liste des pièces",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2240,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "d8c69b01d084111f",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "name": "Liste Pièces",
+        "entityConfig": "70c64959424002d3",
+        "version": 0,
+        "state": "payload.state",
+        "stateType": "msg",
+        "attributes": [
+            {
+                "property": "Attributes",
+                "value": "payload.attributes",
+                "valueType": "msg"
+            }
+        ],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 2230,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b755833499ad267f",
+        "type": "http request",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Intuis homestatus",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://app.muller-intuitiv.net/syncapi/v1/homestatus",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Authorization",
+                "valueType": "msg",
+                "valueValue": "token"
+            },
+            {
+                "keyType": "Content-Type",
+                "keyValue": "",
+                "valueType": "other",
+                "valueValue": "application/x-www-form-urlencoded"
+            }
+        ],
+        "x": 630,
+        "y": 1000,
+        "wires": [
+            [
+                "277531f0ba1a6ea6",
+                "48e07c183d26c4ab",
+                "129f966a0f29d92a",
+                "6fec4dfe0584cfb1",
+                "531528e158634dab",
+                "5956786c32542061",
+                "c7c208fc104c4168",
+                "26145049672b8fdd",
+                "27405eacdabc8f66",
+                "d128cae9b0e2cf45",
+                "54c0d284f7d3bfe2",
+                "28e41332c9d268ea",
+                "1bbf4fe2031bc85b",
+                "94df6c8058225842",
+                "ad3eee4825b32a4b",
+                "a12d496db209d907",
+                "88e74568be0f092f",
+                "fdd2becf2693b61c",
+                "fbbe4368ed84a6c5",
+                "99756c9d699f3239",
+                "3857c28b8862d75c",
+                "6c450f5bbf3d4c57",
+                "021da8220fbc5550",
+                "9abd987efd9b7546",
+                "4cfd2835fa680165",
+                "a0e9a9d273856931",
+                "b91c58d27d54e5df",
+                "0deb5c6d429f4ece",
+                "9b94f09b171de499",
+                "e141e4595a4b6e16",
+                "384661809c003895",
+                "bd3c37e931f40b40",
+                "b8d10f455c93a148",
+                "065ca84be94dbe41",
+                "97e9f286fc9a5665",
+                "36b119d798d1f09b",
+                "5f97191c87be0997",
+                "1a04b2760fa9722a",
+                "402ca2eec0855371",
+                "9be212ece344d070",
+                "23ed5e92fa3e3e50",
+                "08a6a40e838d1204",
+                "c46e5b648a6e0f34",
+                "974fedc8994ad3d2",
+                "80d79edc3dcb6da3",
+                "746d36e6ebe9c381",
+                "91d09adf1e62589c",
+                "ca91338c5feea99f",
+                "b7cb94065f5b777b",
+                "dc3f946f501c8c97",
+                "6c100f59f14291b6",
+                "db2894edb0520171",
+                "7ddd3550788087fb",
+                "d817b31516902f7c",
+                "ecd8e9857be09e06",
+                "5094e59c96a7f35e"
+            ]
+        ]
+    },
+    {
+        "id": "277531f0ba1a6ea6",
+        "type": "debug",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Intuis homestatus",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.body",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 950,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "48e07c183d26c4ab",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Température Entrée",
+        "entityConfig": "d95eedd859d8b664",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3165697331\" })[0].therm_measured_temperature",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 960,
+        "y": 1040,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a12d496db209d907",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Mode fonctionnement Entrée",
+        "entityConfig": "f76b635a04caa4af",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3165697331\" })[0].therm_setpoint_mode",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 990,
+        "y": 1100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "129f966a0f29d92a",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Température consigne Entrée",
+        "entityConfig": "20256badf8bcbdd4",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3165697331\" })[0].therm_setpoint_temperature",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 980,
+        "y": 1160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c7c208fc104c4168",
+        "type": "ha-binary-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Fenêtre ouverte Entrée",
+        "entityConfig": "c77c14d53889e40e",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3165697331\" })[0].open_window",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 960,
+        "y": 1220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "26145049672b8fdd",
+        "type": "ha-binary-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Détection présence Entrée",
+        "entityConfig": "63d759f0f3c62f39",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3165697331\" })[0].presence",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 970,
+        "y": 1280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6fec4dfe0584cfb1",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Température Chambre d'amis",
+        "entityConfig": "75bbd493b8d6cbaa",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3330257038\" })[0].therm_measured_temperature",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 980,
+        "y": 1400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "531528e158634dab",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Mode fonctionnement Chambre D’amis",
+        "entityConfig": "e3d9b4aa57e5eb2a",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3330257038\" })[0].therm_setpoint_mode",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1010,
+        "y": 1460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5956786c32542061",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Température consigne Chambre D’amis",
+        "entityConfig": "ae092069eb2baa8f",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3330257038\" })[0].therm_setpoint_temperature",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1020,
+        "y": 1520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "27405eacdabc8f66",
+        "type": "ha-binary-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Fenêtre ouverte Chambre D’amis",
+        "entityConfig": "8aa169c5137457b4",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3330257038\" })[0].open_window",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 990,
+        "y": 1580,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d128cae9b0e2cf45",
+        "type": "ha-binary-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Détection présence Chambre D’amis",
+        "entityConfig": "2ad54ae8b6a0245a",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3330257038\" })[0].presence",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1000,
+        "y": 1640,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "54c0d284f7d3bfe2",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Température Salle De Bain Filles",
+        "entityConfig": "1b0a97e23f63ce23",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"2979072780\" })[0].therm_measured_temperature",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1250,
+        "y": 1040,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "28e41332c9d268ea",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Mode fonctionnement Salle De Bain Filles",
+        "entityConfig": "100a313af5f252be",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"2979072780\" })[0].therm_setpoint_mode",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1300,
+        "y": 1100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1bbf4fe2031bc85b",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Température consigne Salle De Bain Filles",
+        "entityConfig": "26eff76fdb9da3f4",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"2979072780\" })[0].therm_setpoint_temperature",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1270,
+        "y": 1160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "94df6c8058225842",
+        "type": "ha-binary-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Fenêtre ouverte Salle De Bain Filles",
+        "entityConfig": "a2a9e05d6a0b1bca",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"2979072780\" })[0].open_window",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1250,
+        "y": 1220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ad3eee4825b32a4b",
+        "type": "ha-binary-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Détection présence Salle De Bain Filles",
+        "entityConfig": "691179561d9ee5c9",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"2979072780\" })[0].presence",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1260,
+        "y": 1280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6c100f59f14291b6",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Température Chambre Filles",
+        "entityConfig": "d175ed0f639479c1",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3957213003\" })[0].therm_measured_temperature",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1280,
+        "y": 1400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fdd2becf2693b61c",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Mode fonctionnement Chambre Filles",
+        "entityConfig": "4c0cfd77ea47deab",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3957213003\" })[0].therm_setpoint_mode",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1300,
+        "y": 1460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "88e74568be0f092f",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Température consigne Chambre Filles",
+        "entityConfig": "98fab7910d34e3e3",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3957213003\" })[0].therm_setpoint_temperature",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1300,
+        "y": 1520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fbbe4368ed84a6c5",
+        "type": "ha-binary-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Fenêtre ouverte Chambre Filles",
+        "entityConfig": "a25d545305d4095a",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3957213003\" })[0].open_window",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1290,
+        "y": 1580,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "99756c9d699f3239",
+        "type": "ha-binary-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Détection présence Chambre Filles",
+        "entityConfig": "eefcc8439123c565",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3957213003\" })[0].presence",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1290,
+        "y": 1640,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6c450f5bbf3d4c57",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Mode fonctionnement Couloir",
+        "entityConfig": "e02b0c8d47c87143",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3807033309\" })[0].therm_setpoint_mode",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1600,
+        "y": 1100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "021da8220fbc5550",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Température consigne Couloir",
+        "entityConfig": "7f7134e1363ea26a",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3807033309\" })[0].therm_setpoint_temperature",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1600,
+        "y": 1160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9abd987efd9b7546",
+        "type": "ha-binary-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Fenêtre ouverte Couloir",
+        "entityConfig": "49266288c9a62c61",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3807033309\" })[0].open_window",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1590,
+        "y": 1220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4cfd2835fa680165",
+        "type": "ha-binary-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Détection présence Couloir",
+        "entityConfig": "049114a73bad92df",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3807033309\" })[0].presence",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1600,
+        "y": 1280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3857c28b8862d75c",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Température Couloir",
+        "entityConfig": "cac4b902b0b84b30",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3807033309\" })[0].therm_measured_temperature",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1580,
+        "y": 1040,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b91c58d27d54e5df",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Mode fonctionnement Toilettes Visiteurs",
+        "entityConfig": "3f9bcd622b07c830",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3864339241\" })[0].therm_setpoint_mode",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1600,
+        "y": 1460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0deb5c6d429f4ece",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Température consigne Toilettes Visiteurs",
+        "entityConfig": "70c5705e81ca42f9",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3864339241\" })[0].therm_setpoint_temperature",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1610,
+        "y": 1520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9b94f09b171de499",
+        "type": "ha-binary-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Fenêtre ouverte Toilettes Visiteurs",
+        "entityConfig": "1a58af4eea09dc8f",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3864339241\" })[0].open_window",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1590,
+        "y": 1580,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e141e4595a4b6e16",
+        "type": "ha-binary-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Détection présence Toilettes Visiteurs",
+        "entityConfig": "5954d5ae6da7f5db",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3864339241\" })[0].presence",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1600,
+        "y": 1640,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a0e9a9d273856931",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Température Toilettes Visiteurs",
+        "entityConfig": "5d53e3559196a609",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3864339241\" })[0].therm_measured_temperature",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1580,
+        "y": 1400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bd3c37e931f40b40",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Mode fonctionnement Salle à manger",
+        "entityConfig": "b7341bb3976a1367",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3761003540\" })[0].therm_setpoint_mode",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1920,
+        "y": 1460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b8d10f455c93a148",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Température consigne Salle à manger",
+        "entityConfig": "4980b75f18d30d53",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3761003540\" })[0].therm_setpoint_temperature",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1890,
+        "y": 1520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "065ca84be94dbe41",
+        "type": "ha-binary-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Fenêtre ouverte Salle à manger",
+        "entityConfig": "bb5a75a41d93970c",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3761003540\" })[0].open_window",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1870,
+        "y": 1580,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "97e9f286fc9a5665",
+        "type": "ha-binary-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Détection présence Salle à manger",
+        "entityConfig": "3773cd11fcbba532",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3761003540\" })[0].presence",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1880,
+        "y": 1640,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "384661809c003895",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Température Salle à manger",
+        "entityConfig": "c5105ec09fee0f89",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3761003540\" })[0].therm_measured_temperature",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1870,
+        "y": 1400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "36b119d798d1f09b",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Température Cuisine",
+        "entityConfig": "57fa319f12736dcf",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"1668330398\" })[0].therm_measured_temperature",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 2260,
+        "y": 1400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5f97191c87be0997",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Mode fonctionnement Cuisine",
+        "entityConfig": "424bb978f0f6efde",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"1668330398\" })[0].therm_setpoint_mode",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 2280,
+        "y": 1460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1a04b2760fa9722a",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Température consigne Cuisine",
+        "entityConfig": "8db9b3e6402ad111",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"1668330398\" })[0].therm_setpoint_temperature",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 2280,
+        "y": 1520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "402ca2eec0855371",
+        "type": "ha-binary-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Fenêtre ouverte Cuisine",
+        "entityConfig": "f7a037d0631128ed",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"1668330398\" })[0].open_window",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 2270,
+        "y": 1580,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9be212ece344d070",
+        "type": "ha-binary-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Détection présence Cuisine",
+        "entityConfig": "f879152761a06a35",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"1668330398\" })[0].presence",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 2280,
+        "y": 1640,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "08a6a40e838d1204",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Mode fonctionnement Salle De Bain Parents",
+        "entityConfig": "4b6005e3afbcf039",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3357075329\" })[0].therm_setpoint_mode",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 2250,
+        "y": 1100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c46e5b648a6e0f34",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Température consigne Salle De Bain Parents",
+        "entityConfig": "489d1dba2e55caf0",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3357075329\" })[0].therm_setpoint_temperature",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 2220,
+        "y": 1160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "974fedc8994ad3d2",
+        "type": "ha-binary-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Fenêtre ouverte Salle De Bain Parents",
+        "entityConfig": "818cb23a81c12045",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3357075329\" })[0].open_window",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 2200,
+        "y": 1220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "80d79edc3dcb6da3",
+        "type": "ha-binary-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Détection présence Salle De Bain Parents",
+        "entityConfig": "e2f6a2d30e54b216",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3357075329\" })[0].presence",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 2210,
+        "y": 1280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "23ed5e92fa3e3e50",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Température Salle De Bain Parents",
+        "entityConfig": "53b332150a60514d",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"3357075329\" })[0].therm_measured_temperature",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 2190,
+        "y": 1040,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "91d09adf1e62589c",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Mode fonctionnement Chambre Parents",
+        "entityConfig": "b6ce81822e82d280",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"1707740468\" })[0].therm_setpoint_mode",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 2660,
+        "y": 1100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ca91338c5feea99f",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Température consigne Chambre Parents",
+        "entityConfig": "ccfe06e1f1664232",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"1707740468\" })[0].therm_setpoint_temperature",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 2570,
+        "y": 1160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b7cb94065f5b777b",
+        "type": "ha-binary-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Fenêtre ouverte Chambre Parents",
+        "entityConfig": "03657b3c18adda23",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"1707740468\" })[0].open_window",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 2550,
+        "y": 1220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "dc3f946f501c8c97",
+        "type": "ha-binary-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Détection présence Chambre Parents",
+        "entityConfig": "015c87b01e4d648f",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"1707740468\" })[0].presence",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 2560,
+        "y": 1280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "746d36e6ebe9c381",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Température Chambre Parents",
+        "entityConfig": "2091f2ca728b6769",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"1707740468\" })[0].therm_measured_temperature",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 2540,
+        "y": 1040,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "db2894edb0520171",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Température Salon",
+        "entityConfig": "67699c44de8c3d4e",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"2064991252\" })[0].therm_measured_temperature",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1870,
+        "y": 1120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7ddd3550788087fb",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Mode fonctionnement Salon",
+        "entityConfig": "27398167c586ce1e",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"2064991252\" })[0].therm_setpoint_mode",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1900,
+        "y": 1160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d817b31516902f7c",
+        "type": "ha-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Température consigne Salon",
+        "entityConfig": "34586545d535ffd6",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"2064991252\" })[0].therm_setpoint_temperature",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1900,
+        "y": 1200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ecd8e9857be09e06",
+        "type": "ha-binary-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Fenêtre ouverte Salon",
+        "entityConfig": "bdeef0ef5efb5cfc",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"2064991252\" })[0].open_window",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1880,
+        "y": 1240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5094e59c96a7f35e",
+        "type": "ha-binary-sensor",
+        "z": "a3667737564f7de1",
+        "g": "b1d3bdb41aec61e1",
+        "name": "Détection présence Salon",
+        "entityConfig": "e5f43328f88b6b5d",
+        "version": 0,
+        "state": "$filter(payload.body.home.rooms, function($v){ $v.id = \"2064991252\" })[0].presence",
+        "stateType": "jsonata",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1890,
+        "y": 1280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "publish_plannings_mqtt",
+        "type": "function",
+        "z": "a3667737564f7de1",
+        "name": "Publier chaque planning MQTT",
+        "func": "// Extrait tous les plannings de la réponse API et les publie chacun sur leur topic\nconst plannings = msg.payload.body.homes[0].therm_schedules;\nconst outMsgs = [];\nfor (let i = 0; i < plannings.length; i++) {\n    const planning = plannings[i];\n    const id = planning.id;\n    const topic = `plannings/therm_schedule_${id}`;\n    outMsgs.push({\n        topic: topic,\n        payload: JSON.stringify(planning),\n        retain: true,\n        from_sync: true\n    });\n}\nreturn [outMsgs];",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1930,
+        "y": 300,
+        "wires": [
+            [
+                "e10e821b027b0d38",
+                "mqtt_publish_planning"
+            ]
+        ]
+    },
+    {
+        "id": "mqtt_publish_planning",
+        "type": "mqtt out",
+        "z": "a3667737564f7de1",
+        "name": "MQTT publish planning",
+        "topic": "",
+        "qos": "0",
+        "retain": "true",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "b22e94a0f37cb076",
+        "x": 2270,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "e10e821b027b0d38",
+        "type": "debug",
+        "z": "a3667737564f7de1",
+        "name": "Publication MQTT",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2250,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "b9c90fe6a6374294",
+        "type": "link in",
+        "z": "a3667737564f7de1",
+        "name": "link in 1",
+        "links": [
+            "c6c6dc2710f6bed2"
+        ],
+        "x": 185,
+        "y": 700,
+        "wires": [
+            [
+                "0b708dd99a7fdecb"
+            ]
+        ]
+    },
+    {
+        "id": "61e2eb8646b1cf45",
+        "type": "debug",
+        "z": "a3667737564f7de1",
+        "name": "debug 3",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2480,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "20031c2725525363",
+        "type": "ha-update-config",
+        "z": "a3667737564f7de1",
+        "name": "Update liste des plannings",
+        "server": "553a4a33f70c2e19",
+        "entityConfig": "2de3bd7f4105a055",
+        "version": 0,
+        "outputProperties": [],
+        "x": 2260,
+        "y": 480,
+        "wires": [
+            [
+                "61e2eb8646b1cf45"
+            ]
+        ]
+    },
+    {
+        "id": "225dceec4b6b2ce7",
+        "type": "function",
+        "z": "a3667737564f7de1",
+        "name": "function 4",
+        "func": "// On cherche la bonne racine dans msg.payload\nlet schedules = null;\nif (msg.payload && msg.payload.body && msg.payload.body.homes) {\n    schedules = msg.payload.body.homes[0]?.therm_schedules;\n} else if (msg.payload && msg.payload.homes) {\n    schedules = msg.payload.homes[0]?.therm_schedules;\n}\n\n// Sécurité\nif (!Array.isArray(schedules)) {\n    node.warn(\"Pas de therm_schedules trouvé\");\n    msg.payload = [];\n    return msg;\n}\n\n// On filtre pour ne garder que les plannings de chauffage (type === 'therm')\nlet planning_names = schedules\n    .filter(s => s.type === \"therm\" && s.name && s.name.trim() !== \"\")\n    .map(s => s.name.trim());\n\n// Option : enlever les doublons (si besoin)\nplanning_names = [...new Set(planning_names)];\n\n// Prépare pour Home Assistant input_select.set_options\nmsg.payload = {\n    domain: \"input_select\",\n    service: \"set_options\",\n    data: {\n        entity_id: \"input_select.planning_chauffage\",\n        options: planning_names\n    }\n};\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1860,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a14534a999bdec1e",
+        "type": "function",
+        "z": "a3667737564f7de1",
+        "name": "select.liste_des_plannings_nr",
+        "func": "let scheds = msg.payload.body.homes[0].therm_schedules;\nlet planningNames = {};\nlet options = [];\n\nfor (let i = 0; i < scheds.length; i++) {\n    let name = scheds[i].name;\n    let id = scheds[i].id;\n    options.push(name);\n    planningNames[name] = id;\n}\n\n// On stocke pour la suite (si besoin d’un mapping nom > id)\nglobal.set(\"planning_name_to_id\", planningNames);\n\n// Format attendu par ha-update-config\nmsg.payload = {\n    entity_id: \"select.liste_des_plannings_nr\",\n    options: options\n};\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1930,
+        "y": 500,
+        "wires": [
+            [
+                "20031c2725525363"
+            ]
+        ]
+    },
+    {
+        "id": "81ee618688b33a69",
+        "type": "function",
+        "z": "a3667737564f7de1",
+        "name": "Création ou maj des pièces dans HA",
+        "func": "let rooms = msg.payload.body.homes[0].rooms;\nlet roomNames = {};\nlet options = [];\n\nfor (let i = 0; i < rooms.length; i++) {\n    let name = rooms[i].name;\n    let id = rooms[i].id;\n    options.push(name);\n    roomNames[name] = id;\n}\n\n// Sauvegarder pour plus tard\nglobal.set(\"room_name_to_id\", roomNames);\n\n// Envoyer les options à Home Assistant\nmsg.payload = {\n    entity_id: \"input_select.tmp_choix_piece\",\n    options: options\n};\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1590,
+        "y": 760,
+        "wires": [
+            [
+                "251ab9532fe5a3ea"
+            ]
+        ]
+    },
+    {
+        "id": "251ab9532fe5a3ea",
+        "type": "ha-update-config",
+        "z": "a3667737564f7de1",
+        "name": "Update liste de choix pièce",
+        "server": "553a4a33f70c2e19",
+        "entityConfig": "f98010fd4ac7980b",
+        "version": 0,
+        "outputProperties": [],
+        "x": 2260,
+        "y": 760,
+        "wires": [
+            [
+                "53b95742fc451394"
+            ]
+        ]
+    },
+    {
+        "id": "53b95742fc451394",
+        "type": "debug",
+        "z": "a3667737564f7de1",
+        "name": "liste pieces",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2490,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "6c0257c5859242a5",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "",
+        "name": "Mode Maison",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Mode Maison"
+            },
+            {
+                "property": "icon",
+                "value": "mdi:home"
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "553a4a33f70c2e19",
+        "type": "server",
+        "name": "Home Assistant",
+        "version": 5,
+        "addon": false,
+        "rejectUnauthorizedCerts": false,
+        "ha_boolean": "y|yes|true|on|home|open",
+        "connectionDelay": true,
+        "cacheJson": true,
+        "heartbeat": false,
+        "heartbeatInterval": 30,
+        "areaSelector": "friendlyName",
+        "deviceSelector": "friendlyName",
+        "entitySelector": "friendlyName",
+        "statusSeparator": ": ",
+        "statusYear": "numeric",
+        "statusMonth": "numeric",
+        "statusDay": "numeric",
+        "statusHourCycle": "h23",
+        "statusTimeFormat": "h:m",
+        "enableGlobalContextStore": true
+    },
+    {
+        "id": "7b6075a0b55c0b0a",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "",
+        "name": "choix piece",
+        "version": 6,
+        "entityType": "select",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "choix piece"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "config"
+            },
+            {
+                "property": "options",
+                "value": [
+                    ""
+                ]
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "70c64959424002d3",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "",
+        "name": "liste_pieces_lens",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "liste_pieces_lens"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": ""
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "d95eedd859d8b664",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "f06b30da46b52b62",
+        "name": "Température Entrée",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Température Entrée"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°C"
+            },
+            {
+                "property": "state_class",
+                "value": "measurement"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "f76b635a04caa4af",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "f06b30da46b52b62",
+        "name": "Mode fonctionnement Entrée",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Mode fonctionnement Entrée"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "20256badf8bcbdd4",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "f06b30da46b52b62",
+        "name": "Température Consigne Entrée",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Température Consigne Entrée"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°C"
+            },
+            {
+                "property": "state_class",
+                "value": "measurement"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "c77c14d53889e40e",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "f06b30da46b52b62",
+        "name": "Fenêtre ouverte entrée",
+        "version": 6,
+        "entityType": "binary_sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Fenêtre ouverte entrée"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "window"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "63d759f0f3c62f39",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "f06b30da46b52b62",
+        "name": "Présence Entrée",
+        "version": 6,
+        "entityType": "binary_sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Présence Entrée"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "presence"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "75bbd493b8d6cbaa",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "be3a41c16e206ddc",
+        "name": "Température Chambre d'amis",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Température Chambre d'amis"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°C"
+            },
+            {
+                "property": "state_class",
+                "value": "measurement"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "e3d9b4aa57e5eb2a",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "be3a41c16e206ddc",
+        "name": "Mode fonctionnement Chambre d'amis",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Mode fonctionnement Chambre d'amis"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "ae092069eb2baa8f",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "be3a41c16e206ddc",
+        "name": "Température consigne Chambre d'amis",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Température consigne Chambre d'amis"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°C"
+            },
+            {
+                "property": "state_class",
+                "value": "measurement"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "8aa169c5137457b4",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "be3a41c16e206ddc",
+        "name": "Fenêtre ouverte Chambre d'amis",
+        "version": 6,
+        "entityType": "binary_sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Fenêtre ouverte Chambre d'amis"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "window"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "2ad54ae8b6a0245a",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "be3a41c16e206ddc",
+        "name": "Présence Chambre d'amis",
+        "version": 6,
+        "entityType": "binary_sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Présence Chambre d'amis"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "presence"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "1b0a97e23f63ce23",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "cb9e582c8ad85e3e",
+        "name": "Température Salle De Bain Filles",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Température Salle De Bain Filles"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°C"
+            },
+            {
+                "property": "state_class",
+                "value": "measurement"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "100a313af5f252be",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "cb9e582c8ad85e3e",
+        "name": "Mode fonctionnement Salle De Bain Filles",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Mode fonctionnement Salle De Bain Filles"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "26eff76fdb9da3f4",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "cb9e582c8ad85e3e",
+        "name": "Température consigne Salle De Bain Filles",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Température consigne Salle De Bain Filles"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°C"
+            },
+            {
+                "property": "state_class",
+                "value": "measurement"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "a2a9e05d6a0b1bca",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "cb9e582c8ad85e3e",
+        "name": "Fenêtre ouverte Salle De Bain Filles",
+        "version": 6,
+        "entityType": "binary_sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Fenêtre ouverte Salle De Bain Filles"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "window"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "691179561d9ee5c9",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "cb9e582c8ad85e3e",
+        "name": "Détection présence Salle De Bain Filles",
+        "version": 6,
+        "entityType": "binary_sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Détection présence Salle De Bain Filles"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "presence"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "d175ed0f639479c1",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "9150e51b3a4dd1ce",
+        "name": "Température Chambre Filles",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Température Chambre Filles"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°C"
+            },
+            {
+                "property": "state_class",
+                "value": "measurement"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "4c0cfd77ea47deab",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "9150e51b3a4dd1ce",
+        "name": "Mode fonctionnement Chambre Filles",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Mode fonctionnement Chambre Filles"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "98fab7910d34e3e3",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "9150e51b3a4dd1ce",
+        "name": "Température consigne Chambre Filles",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Température consigne Chambre Filles"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°C"
+            },
+            {
+                "property": "state_class",
+                "value": "measurement"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "a25d545305d4095a",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "9150e51b3a4dd1ce",
+        "name": "Fenêtre ouverte Chambre Filles",
+        "version": 6,
+        "entityType": "binary_sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Fenêtre ouverte Chambre Filles"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "window"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "eefcc8439123c565",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "9150e51b3a4dd1ce",
+        "name": "Détection présence Chambre Filles",
+        "version": 6,
+        "entityType": "binary_sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Détection présence Chambre Filles"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "presence"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "e02b0c8d47c87143",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "458fbd4dd07d4ace",
+        "name": "Mode fonctionnement Couloir",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Mode fonctionnement Couloir"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "7f7134e1363ea26a",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "458fbd4dd07d4ace",
+        "name": "Température consigne Couloir",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Température consigne Couloir"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°C"
+            },
+            {
+                "property": "state_class",
+                "value": "measurement"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "49266288c9a62c61",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "458fbd4dd07d4ace",
+        "name": "Fenêtre ouverte Couloir",
+        "version": 6,
+        "entityType": "binary_sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Fenêtre ouverte Couloir"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "window"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "049114a73bad92df",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "458fbd4dd07d4ace",
+        "name": "Détection présence Couloir",
+        "version": 6,
+        "entityType": "binary_sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Détection présence Couloir"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "presence"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "cac4b902b0b84b30",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "458fbd4dd07d4ace",
+        "name": "Température Couloir",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Température Couloir"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°C"
+            },
+            {
+                "property": "state_class",
+                "value": "measurement"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "3f9bcd622b07c830",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "c3f23377a8977e23",
+        "name": "Mode fonctionnement Toilettes Visiteurs",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Mode fonctionnement Toilettes Visiteurs"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "70c5705e81ca42f9",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "c3f23377a8977e23",
+        "name": "Température consigne Toilettes Visiteurs",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Température consigne Toilettes Visiteurs"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°C"
+            },
+            {
+                "property": "state_class",
+                "value": "measurement"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "1a58af4eea09dc8f",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "c3f23377a8977e23",
+        "name": "Fenêtre ouverte Toilettes Visiteurs",
+        "version": 6,
+        "entityType": "binary_sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Fenêtre ouverte Toilettes Visiteurs"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "window"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "5954d5ae6da7f5db",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "c3f23377a8977e23",
+        "name": "Détection présence Toilettes Visiteurs",
+        "version": 6,
+        "entityType": "binary_sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Détection présence Toilettes Visiteurs"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "presence"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "5d53e3559196a609",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "c3f23377a8977e23",
+        "name": "Température Toilettes Visiteurs",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Température Toilettes Visiteurs"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°C"
+            },
+            {
+                "property": "state_class",
+                "value": "measurement"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "b7341bb3976a1367",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "bfa569038d17228e",
+        "name": "Mode fonctionnement Température Salle à manger Cuisine",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Mode fonctionnement Température Salle à manger Cuisine"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "4980b75f18d30d53",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "bfa569038d17228e",
+        "name": "Température consigne Salle à manger Cuisine",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Température consigne Salle à manger Cuisine"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°C"
+            },
+            {
+                "property": "state_class",
+                "value": "measurement"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "bb5a75a41d93970c",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "bfa569038d17228e",
+        "name": "Fenêtre ouverte Salle à manger Cuisine",
+        "version": 6,
+        "entityType": "binary_sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Fenêtre ouverte Salle à manger Cuisine"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "window"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "3773cd11fcbba532",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "bfa569038d17228e",
+        "name": "Détection présence Salle à manger Cuisine",
+        "version": 6,
+        "entityType": "binary_sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Détection présence Salle à manger Cuisine"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "presence"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "c5105ec09fee0f89",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "bfa569038d17228e",
+        "name": "Température Salle à manger Cuisine",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Température Salle à manger Cuisine"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°C"
+            },
+            {
+                "property": "state_class",
+                "value": "measurement"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "57fa319f12736dcf",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "7b0eafa81b222ac6",
+        "name": "Température Cuisine",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Température Cuisine"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°C"
+            },
+            {
+                "property": "state_class",
+                "value": "measurement"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "424bb978f0f6efde",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "7b0eafa81b222ac6",
+        "name": "Mode fonctionnement  Cuisine",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Mode fonctionnement  Cuisine"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "8db9b3e6402ad111",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "7b0eafa81b222ac6",
+        "name": "Température consigne Cuisine",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Température consigne Cuisine"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°C"
+            },
+            {
+                "property": "state_class",
+                "value": "measurement"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "f7a037d0631128ed",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "7b0eafa81b222ac6",
+        "name": "Fenêtre ouverte Cuisine",
+        "version": 6,
+        "entityType": "binary_sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Fenêtre ouverte Cuisine"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "window"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "f879152761a06a35",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "7b0eafa81b222ac6",
+        "name": "Détection présence Cuisine",
+        "version": 6,
+        "entityType": "binary_sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Détection présence Cuisine"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "presence"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "4b6005e3afbcf039",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "c1e114bd73b7d75a",
+        "name": "Mode fonctionnement Température Salle De Bain Parents",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Mode fonctionnement Température Salle De Bain Parents"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "489d1dba2e55caf0",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "c1e114bd73b7d75a",
+        "name": "Température consigne Salle De Bain Parents",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Température consigne Salle De Bain Parents"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°C"
+            },
+            {
+                "property": "state_class",
+                "value": "measurement"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "818cb23a81c12045",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "c1e114bd73b7d75a",
+        "name": "Fenêtre ouverte Salle De Bain Parents",
+        "version": 6,
+        "entityType": "binary_sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Fenêtre ouverte Salle De Bain Parents"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "window"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "e2f6a2d30e54b216",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "c1e114bd73b7d75a",
+        "name": "Détection présence Salle De Bain Parents",
+        "version": 6,
+        "entityType": "binary_sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Détection présence Salle De Bain Parents"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "presence"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "53b332150a60514d",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "c1e114bd73b7d75a",
+        "name": "Température Salle De Bain Parents1",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Température Salle De Bain Parents"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°C"
+            },
+            {
+                "property": "state_class",
+                "value": "measurement"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "b6ce81822e82d280",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "5b06070b1069a81f",
+        "name": "Mode fonctionnement Température Chambre Parents",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Mode fonctionnement Température Chambre Parents"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "ccfe06e1f1664232",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "5b06070b1069a81f",
+        "name": "Température consigne Chambre Parents",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Température consigne Chambre Parents"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°C"
+            },
+            {
+                "property": "state_class",
+                "value": "measurement"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "03657b3c18adda23",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "5b06070b1069a81f",
+        "name": "Fenêtre ouverte Chambre Parents",
+        "version": 6,
+        "entityType": "binary_sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Fenêtre ouverte Chambre Parents"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "window"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "015c87b01e4d648f",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "5b06070b1069a81f",
+        "name": "Détection présence Chambre Parents",
+        "version": 6,
+        "entityType": "binary_sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Détection présence Chambre Parents"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "presence"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "2091f2ca728b6769",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "5b06070b1069a81f",
+        "name": "Température Chambre Parents",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Température Chambre Parents"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°C"
+            },
+            {
+                "property": "state_class",
+                "value": "measurement"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "67699c44de8c3d4e",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "38086847a02d49d8",
+        "name": "Température Salon",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Température Salon"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°C"
+            },
+            {
+                "property": "state_class",
+                "value": "measurement"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "27398167c586ce1e",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "38086847a02d49d8",
+        "name": "Mode fonctionnement Salon",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Mode fonctionnement Salon"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "34586545d535ffd6",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "38086847a02d49d8",
+        "name": "Température consigne Salon",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Température consigne Salon"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°C"
+            },
+            {
+                "property": "state_class",
+                "value": "measurement"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "bdeef0ef5efb5cfc",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "38086847a02d49d8",
+        "name": "Fenetre ouverte Salon",
+        "version": 6,
+        "entityType": "binary_sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Fenetre ouverte Salon"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "window"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "e5f43328f88b6b5d",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "38086847a02d49d8",
+        "name": "Détection présence Salon",
+        "version": 6,
+        "entityType": "binary_sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Détection présence Salon"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "diagnostic"
+            },
+            {
+                "property": "device_class",
+                "value": "presence"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "b22e94a0f37cb076",
+        "type": "mqtt-broker",
+        "name": "MQTT",
+        "broker": "172.22.22.26",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "2de3bd7f4105a055",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "",
+        "name": "Liste des plannings NR",
+        "version": 6,
+        "entityType": "select",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Liste des plannings NR"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "config"
+            },
+            {
+                "property": "options",
+                "value": [
+                    ""
+                ]
+            }
+        ],
+        "resend": false,
+        "debugEnabled": true
+    },
+    {
+        "id": "f98010fd4ac7980b",
+        "type": "ha-entity-config",
+        "server": "553a4a33f70c2e19",
+        "deviceConfig": "",
+        "name": "Tmp choix piece",
+        "version": 6,
+        "entityType": "select",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Tmp choix piece"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": "config"
+            },
+            {
+                "property": "options",
+                "value": [
+                    ""
+                ]
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "f06b30da46b52b62",
+        "type": "ha-device-config",
+        "name": "Chauffage Entrée",
+        "hwVersion": "",
+        "manufacturer": "Node-RED",
+        "model": "",
+        "swVersion": ""
+    },
+    {
+        "id": "be3a41c16e206ddc",
+        "type": "ha-device-config",
+        "name": "Chauffage Chambre d'amis",
+        "hwVersion": "",
+        "manufacturer": "Node-RED",
+        "model": "",
+        "swVersion": ""
+    },
+    {
+        "id": "cb9e582c8ad85e3e",
+        "type": "ha-device-config",
+        "name": "Chauffage Salle de bain Filles",
+        "hwVersion": "",
+        "manufacturer": "Node-RED",
+        "model": "",
+        "swVersion": ""
+    },
+    {
+        "id": "9150e51b3a4dd1ce",
+        "type": "ha-device-config",
+        "name": "Chauffage Chambre Filles",
+        "hwVersion": "",
+        "manufacturer": "Node-RED",
+        "model": "",
+        "swVersion": ""
+    },
+    {
+        "id": "458fbd4dd07d4ace",
+        "type": "ha-device-config",
+        "name": "Chauffage Couloir",
+        "hwVersion": "",
+        "manufacturer": "Node-RED",
+        "model": "",
+        "swVersion": ""
+    },
+    {
+        "id": "c3f23377a8977e23",
+        "type": "ha-device-config",
+        "name": "Chauffage Toilettes Visiteurs",
+        "hwVersion": "",
+        "manufacturer": "Node-RED",
+        "model": "",
+        "swVersion": ""
+    },
+    {
+        "id": "bfa569038d17228e",
+        "type": "ha-device-config",
+        "name": "Chauffage Salle à Manger",
+        "hwVersion": "",
+        "manufacturer": "Node-RED",
+        "model": "",
+        "swVersion": ""
+    },
+    {
+        "id": "7b0eafa81b222ac6",
+        "type": "ha-device-config",
+        "name": "Chauffage Cuisine",
+        "hwVersion": "",
+        "manufacturer": "Node-RED",
+        "model": "",
+        "swVersion": ""
+    },
+    {
+        "id": "c1e114bd73b7d75a",
+        "type": "ha-device-config",
+        "name": "Chauffage Salle de bain Parents",
+        "hwVersion": "",
+        "manufacturer": "Node-RED",
+        "model": "",
+        "swVersion": ""
+    },
+    {
+        "id": "5b06070b1069a81f",
+        "type": "ha-device-config",
+        "name": "Chauffage Chambre Parents",
+        "hwVersion": "",
+        "manufacturer": "Node-RED",
+        "model": "",
+        "swVersion": ""
+    },
+    {
+        "id": "38086847a02d49d8",
+        "type": "ha-device-config",
+        "name": "Chauffage Salon",
+        "hwVersion": "",
+        "manufacturer": "Node-RED",
+        "model": "",
+        "swVersion": ""
+    },
+    {
+        "id": "70baa0263541ee6d",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-contrib-home-assistant-websocket": "0.75.0"
+        }
+    }
+]
