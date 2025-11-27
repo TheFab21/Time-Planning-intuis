@@ -6951,7 +6951,7 @@
         "z": "e9fafc919bcb1bb0",
         "g": "1cd063b931506666",
         "name": "Build gethomemeasure: depuis J-1 00:00 local → maintenant",
-        "func": "// Build gethomemeasure: J-1 00:00 (local) → maintenant, échelle 1h\nconst home_id = $globalContext('home_id');\nconst bridge  = $globalContext('routeur_id');\nconst room_ids = [\n  $globalContext('room0_id'),$globalContext('room1_id'),$globalContext('room2_id'),$globalContext('room3_id'),$globalContext('room4_id'),\n  $globalContext('room5_id'),$globalContext('room6_id'),$globalContext('room7_id'),$globalContext('room8_id'),$globalContext('room9_id'),$globalContext('room10_id')\n];\n\n// --- TOKEN ---\nconst rawToken = global.get('AccessToken') || global.get('intuis_token') || global.get('token');\nif (!rawToken) { node.error(\"Token Intuis introuvable\"); return null; }\nmsg.token = rawToken.startsWith('Bearer ') ? rawToken : `Bearer ${rawToken}`;\n\n// --- TZ cohérent ---\nconst tz = global.get('tz') || \"Europe/Paris\";\n\n// \"now\" en local TZ\nconst nowLocal = new Date(new Date().toLocaleString('en-US', { timeZone: tz }));\n// Minuit local aujourd’hui\nconst todayLocalMid = new Date(nowLocal); todayLocalMid.setHours(0,0,0,0);\n// J-1 minuit local\nconst j2LocalMid = new Date(todayLocalMid); j2LocalMid.setDate(j2LocalMid.getDate()-1);\n\nmsg.payload = {\n  date_begin: Math.floor(j2LocalMid.getTime()/1000),\n  date_end:   Math.floor(nowLocal.getTime()/1000),\n  scale: \"1hour\",\n  app_identifier: \"app_muller\",\n  home: { id: home_id, rooms: room_ids.map(id => ({ id, bridge, type: \"sum_energy_elec$0\" })) }\n};\nreturn msg;\n",
+        "func": "// Build gethomemeasure: J-1 00:00 (local) → maintenant, échelle 1h\nconst home_id  = global.get('home_id');\nconst bridge   = global.get('routeur_id');\n\nconst room_ids = [\n  global.get('room0_id'), global.get('room1_id'), global.get('room2_id'),\n  global.get('room3_id'), global.get('room4_id'), global.get('room5_id'),\n  global.get('room6_id'), global.get('room7_id'), global.get('room8_id'),\n  global.get('room9_id'), global.get('room10_id')\n];\n\n// --- TOKEN ---\nconst rawToken = global.get('AccessToken') || global.get('intuis_token') || global.get('token');\nif (!rawToken) { node.error(\"Token Intuis introuvable\"); return null; }\nmsg.token = rawToken.startsWith('Bearer ') ? rawToken : `Bearer ${rawToken}`;\n\n// --- TZ cohérent ---\nconst tz = global.get('tz') || \"Europe/Paris\";\n\n// \"now\" en local TZ\nconst nowLocal = new Date(new Date().toLocaleString('en-US', { timeZone: tz }));\n// Minuit local aujourd’hui\nconst todayLocalMid = new Date(nowLocal); todayLocalMid.setHours(0,0,0,0);\n// J-1 minuit local\nconst j2LocalMid = new Date(todayLocalMid); j2LocalMid.setDate(j2LocalMid.getDate()-1);\n\nmsg.payload = {\n  date_begin: Math.floor(j2LocalMid.getTime()/1000),\n  date_end:   Math.floor(nowLocal.getTime()/1000),\n  scale: \"1hour\",\n  app_identifier: \"app_muller\",\n  home: {\n    id: home_id,\n    rooms: room_ids.map(id => ({\n      id,\n      bridge,\n      type: \"sum_energy_elec$0\"\n    }))\n  }\n};\n\nreturn msg;\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -7629,7 +7629,9 @@
         "x": 2900,
         "y": 680,
         "wires": [
-            []
+            [
+                "10a1ca1857c7f5b2"
+            ]
         ]
     },
     {
@@ -7851,7 +7853,7 @@
         "z": "e9fafc919bcb1bb0",
         "g": "40bddeefa0656431",
         "name": "Build gethomemeasure (J-3 → J-2) 1day (TZ local)",
-        "func": "// J-2 00:00 → J-1 00:00 (jour complet J-2), scale 1day\nconst home_id = $globalContext('home_id');\nconst bridge  = $globalContext('routeur_id');\nconst token   = global.get('AccessToken') || global.get('intuis_token') || global.get('token');\nif (!token) { node.error(\"AccessToken/Token Intuis introuvable\"); return null; }\nmsg.token = token.startsWith('Bearer ') ? token : `Bearer ${token}`;\n\nconst room_ids = [\n  $globalContext('room0_id'),$globalContext('room1_id'),$globalContext('room2_id'),$globalContext('room3_id'),$globalContext('room4_id'),\n  $globalContext('room5_id'),$globalContext('room6_id'),$globalContext('room7_id'),$globalContext('room8_id'),$globalContext('room9_id'),$globalContext('room10_id')\n];\n\n// === bornes locales Europe/Paris ===\nconst tz = \"Europe/Paris\";\nconst nowLocal   = new Date(new Date().toLocaleString('en-US', { timeZone: tz }));\nconst todayMid   = new Date(nowLocal); todayMid.setHours(0,0,0,0);        // J 00:00 local\nconst j1MidLocal = new Date(todayMid); j1MidLocal.setDate(j1MidLocal.getDate()-1); // J-1 00:00\nconst j2MidLocal = new Date(todayMid); j2MidLocal.setDate(j2MidLocal.getDate()-2); // J-2 00:00\n\nmsg.payload = {\n  date_begin: Math.floor(j2MidLocal.getTime()/1000),\n  date_end:   Math.floor(j1MidLocal.getTime()/1000),\n  scale: \"1day\",\n  app_identifier: \"app_muller\",\n  home: { id: home_id, rooms: room_ids.map(id => ({ id, bridge, type: \"sum_energy_elec$0\" })) }\n};\n\n// debug lisible\nmsg._window_debug = {\n  tz,\n  j2_local: j2MidLocal.toLocaleString('fr-FR', { timeZone: tz }),\n  j1_local: j1MidLocal.toLocaleString('fr-FR', { timeZone: tz }),\n  j2_iso: j2MidLocal.toISOString(),\n  j1_iso: j1MidLocal.toISOString()\n};\nreturn msg;\n",
+        "func": "// J-2 00:00 → J-1 00:00 (jour complet J-2), scale 1day\nconst home_id =global.get('home_id');\nconst bridge  =global.get('routeur_id');\nconst token   = global.get('AccessToken') || global.get('intuis_token') || global.get('token');\nif (!token) { node.error(\"AccessToken/Token Intuis introuvable\"); return null; }\nmsg.token = token.startsWith('Bearer ') ? token : `Bearer ${token}`;\n\nconst room_ids = [\n global.get('room0_id'),global.get('room1_id'),global.get('room2_id'),global.get('room3_id'),global.get('room4_id'),\n global.get('room5_id'),global.get('room6_id'),global.get('room7_id'),global.get('room8_id'),global.get('room9_id'),global.get('room10_id')\n];\n\n// === bornes locales Europe/Paris ===\nconst tz = \"Europe/Paris\";\nconst nowLocal   = new Date(new Date().toLocaleString('en-US', { timeZone: tz }));\nconst todayMid   = new Date(nowLocal); todayMid.setHours(0,0,0,0);        // J 00:00 local\nconst j1MidLocal = new Date(todayMid); j1MidLocal.setDate(j1MidLocal.getDate()-1); // J-1 00:00\nconst j2MidLocal = new Date(todayMid); j2MidLocal.setDate(j2MidLocal.getDate()-2); // J-2 00:00\n\nmsg.payload = {\n  date_begin: Math.floor(j2MidLocal.getTime()/1000),\n  date_end:   Math.floor(j1MidLocal.getTime()/1000),\n  scale: \"1day\",\n  app_identifier: \"app_muller\",\n  home: { id: home_id, rooms: room_ids.map(id => ({ id, bridge, type: \"sum_energy_elec$0\" })) }\n};\n\n// debug lisible\nmsg._window_debug = {\n  tz,\n  j2_local: j2MidLocal.toLocaleString('fr-FR', { timeZone: tz }),\n  j1_local: j1MidLocal.toLocaleString('fr-FR', { timeZone: tz }),\n  j2_iso: j2MidLocal.toISOString(),\n  j1_iso: j1MidLocal.toISOString()\n};\nreturn msg;\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -7892,7 +7894,7 @@
         "z": "e9fafc919bcb1bb0",
         "g": "76bcd7558fa413aa",
         "name": "Build gethomemeasure (16/08 → 06/10 inclus)",
-        "func": "// Fenêtre fixe: 16 août 2025 00:00 → 7 oct 2025 00:00 (inclut le 6/10 complet)\n// Utilise l'échelle 1day pour obtenir 1 valeur Wh/jour/room puis on cumulera côté Node-RED.\n\nconst home_id = $globalContext('home_id');\nconst bridge  = $globalContext('routeur_id');\nconst room_ids = [\n  $globalContext('room0_id'),$globalContext('room1_id'),$globalContext('room2_id'),$globalContext('room3_id'),$globalContext('room4_id'),\n  $globalContext('room5_id'),$globalContext('room6_id'),$globalContext('room7_id'),$globalContext('room8_id'),$globalContext('room9_id'),$globalContext('room10_id')\n];\n\n// --- TOKEN ---\nconst rawToken = global.get('AccessToken') || global.get('intuis_token') || global.get('token');\nif (!rawToken) { node.error(\"Token Intuis introuvable dans global.AccessToken / global.intuis_token / global.token\"); return null; }\nmsg.token = rawToken.startsWith('Bearer ') ? rawToken : `Bearer ${rawToken}`;\n// -------------\n\n// Le conteneur est en Europe/Paris → on peut créer des Date locales:\n// JS: mois 0-indexé (août = 7, octobre = 9)\nconst startLocal = new Date(2025, 7, 16, 0, 0, 0, 0); // 16/08/2025 00:00 local\nconst endLocal   = new Date(2025, 9, 7,  0, 0, 0, 0); // 07/10/2025 00:00 local (exclu) ⇒ inclut 06/10 entier\n\nmsg.payload = {\n  date_begin: Math.floor(startLocal.getTime()/1000),\n  date_end:   Math.floor(endLocal.getTime()/1000),\n  scale: \"1day\",\n  app_identifier: \"app_muller\",\n  home: { id: home_id, rooms: room_ids.map(id => ({ id, bridge, type: \"sum_energy_elec$0\" })) }\n};\n\n// Pour info dans la suite\nmsg._period = { from: \"2025-08-16\", to: \"2025-10-06\" };\nreturn msg;\n",
+        "func": "// Fenêtre fixe: 16 août 2025 00:00 → 7 oct 2025 00:00 (inclut le 6/10 complet)\n// Utilise l'échelle 1day pour obtenir 1 valeur Wh/jour/room puis on cumulera côté Node-RED.\n\nconst home_id = global.get('home_id');\nconst bridge  = global.get('routeur_id');\nconst room_ids = [\n  global.get('room0_id'),global.get('room1_id'),global.get('room2_id'),global.get('room3_id'),global.get('room4_id'),\n  global.get('room5_id'),global.get('room6_id'),global.get('room7_id'),global.get('room8_id'),global.get('room9_id'),global.get('room10_id')\n];\n\n// --- TOKEN ---\nconst rawToken = global.get('AccessToken') || global.get('intuis_token') || global.get('token');\nif (!rawToken) { node.error(\"Token Intuis introuvable dans global.AccessToken / global.intuis_token / global.token\"); return null; }\nmsg.token = rawToken.startsWith('Bearer ') ? rawToken : `Bearer ${rawToken}`;\n// -------------\n\n// Le conteneur est en Europe/Paris → on peut créer des Date locales:\n// JS: mois 0-indexé (août = 7, octobre = 9)\nconst startLocal = new Date(2025, 7, 16, 0, 0, 0, 0); // 16/08/2025 00:00 local\nconst endLocal   = new Date(2025, 9, 7,  0, 0, 0, 0); // 07/10/2025 00:00 local (exclu) ⇒ inclut 06/10 entier\n\nmsg.payload = {\n  date_begin: Math.floor(startLocal.getTime()/1000),\n  date_end:   Math.floor(endLocal.getTime()/1000),\n  scale: \"1day\",\n  app_identifier: \"app_muller\",\n  home: { id: home_id, rooms: room_ids.map(id => ({ id, bridge, type: \"sum_energy_elec$0\" })) }\n};\n\n// Pour info dans la suite\nmsg._period = { from: \"2025-08-16\", to: \"2025-10-06\" };\nreturn msg;\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -8056,6 +8058,22 @@
         "statusType": "auto",
         "x": 780,
         "y": 500,
+        "wires": []
+    },
+    {
+        "id": "10a1ca1857c7f5b2",
+        "type": "debug",
+        "z": "e9fafc919bcb1bb0",
+        "name": "debug 9",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 3140,
+        "y": 680,
         "wires": []
     },
     {
